@@ -1,6 +1,6 @@
 # %%
 from algbench import read_as_pandas
-from tspn_bnb2.plotting import init_params
+from tspn_bnb2.misc import init_params
 from tspn_bnb2.schemas import AnnotatedInstance, AnnotatedSolution
 
 init_params()
