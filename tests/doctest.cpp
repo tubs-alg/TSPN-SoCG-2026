@@ -8,8 +8,6 @@
 #include "tspn/common.h"
 #include "tspn/node.h"
 #include "tspn/relaxed_solution.h"
-#include "tspn/sampling/dp.h"
-#include "tspn/sampling/voronoi.h"
 #include "tspn/soc.h"
 #include "tspn/strategies/branching_strategy.h"
 #include "tspn/strategies/root_node_strategy.h"

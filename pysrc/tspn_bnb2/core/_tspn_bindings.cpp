@@ -5,8 +5,6 @@
 #include "tspn/common.h"
 #include "tspn/details/pre_simplify.h"
 #include "tspn/node.h"
-#include "tspn/sampling/dp.h"
-#include "tspn/sampling/voronoi.h"
 #include "tspn/strategies/branching_strategy.h"
 #include "tspn/strategies/order_filtering.h"
 #include "tspn/strategies/root_node_strategy.h"
@@ -207,56 +205,6 @@ PYBIND11_MODULE(_tspn_bindings, m) {
                           .c_str());
     }
   });
-
-  py::class_<CroppedVoronoiDiagram>(m, "CroppedVoronoiDiagram")
-      .def(py::init<const Polygon &>())
-      .def("insert",
-           (void (CroppedVoronoiDiagram::*)(
-               Point &, bool))&CroppedVoronoiDiagram::insert,
-           py::arg("p"), py::arg("recompute") = true,
-           "Insert a single point into the diagram.")
-      .def(
-          "insert",
-          [](CroppedVoronoiDiagram &self, double x, double y,
-             bool recompute = true) {
-            Point p(x, y);
-            self.insert(p, recompute);
-          },
-          py::arg("x"), py::arg("y"), py::arg("recompute") = true,
-          "Insert a single point into the diagram.")
-      .def("error_for_point", &CroppedVoronoiDiagram::error_for_point)
-      .def("get_point",
-           (Point (CroppedVoronoiDiagram::*)(unsigned int i) const) &
-               CroppedVoronoiDiagram::get_point,
-           py::arg("i"), "Get the point at index i in the sampling points.")
-      .def_property_readonly("n_sampling_points",
-                             &CroppedVoronoiDiagram::n_sampling_points)
-      .def("arrangement_edges", &CroppedVoronoiDiagram::arrangement_edges)
-      .def("recompute", &CroppedVoronoiDiagram::recompute);
-
-  py::class_<tspn::dp::DPSolver>(m, "DPSolver",
-                                 "Dynamic Programming Solver for TSPN")
-      .def(py::init<const std::vector<CroppedVoronoiDiagram> &>())
-      .def("compute_trajectory", &tspn::dp::DPSolver::compute_trajectory,
-           py::arg("start_point"), py::arg("tour_elements"),
-           "Compute a trajectory for the given tour elements starting at "
-           "start_point.");
-
-  py::class_<tspn::dp::Cost>(m, "DPCost", "DP cost")
-      .def_readonly("previous_index", &tspn::dp::Cost::previous_index)
-      .def_readonly("value", &tspn::dp::Cost::value)
-      .def("__repr__", [](const tspn::dp::Cost &cost) {
-        return fmt::format("DPCost(previous_index={}, value={})",
-                           cost.previous_index, cost.value);
-      });
-
-  py::class_<tspn::dp::DPSolution>(m, "DPSolution",
-                                   "DP Trajectory of a solution")
-      .def(py::init<Trajectory &>())
-      .def_readonly("trajectory", &tspn::dp::DPSolution::trajectory)
-      .def_readonly("cost", &tspn::dp::DPSolution::cost)
-      .def_readonly("backward_cost", &tspn::dp::DPSolution::backward_cost)
-      .def_readonly("lower_bound", &tspn::dp::DPSolution::lower_bound);
 
   m.def("parse_site_wkt", &parse_site_wkt,
         "Parse wkt of a site and return SiteVariant.", py::arg("wkt"));
