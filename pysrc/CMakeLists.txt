@@ -19,13 +19,12 @@ pybind11_add_module(
 target_link_libraries(_tspn_bindings PRIVATE tspn)
 # link other dependencies
 target_link_libraries(_tspn_bindings PRIVATE fmt::fmt ${CGAL_TARGET}
-                                              doctest::doctest gurobi::gurobi)
+                                              gurobi::gurobi)
 # enable compilation warnings
 target_compile_options(
   _tspn_bindings PRIVATE "$<$<CXX_COMPILER_ID:GNU,Clang,AppleClang>:-Wall>")
 target_compile_definitions(
-  _tspn_bindings PRIVATE DOCTEST_CONFIG_DISABLE
-                          PYBIND11_DETAILED_ERROR_MESSAGES)
+  _tspn_bindings PRIVATE PYBIND11_DETAILED_ERROR_MESSAGES)
 
 # This definition is important for skbuild to copy the binary to the right
 # position in the package. !!! This part is critical and a wrong configuration

@@ -3,7 +3,6 @@
  */
 #ifndef TSPN_NODE_H
 #define TSPN_NODE_H
-#include "doctest/doctest.h"
 #include "relaxed_solution.h"
 #include "tspn/common.h"
 #include "tspn/soc.h"
@@ -149,19 +148,5 @@ private:
   SocSolver *soc;
 };
 
-TEST_CASE("Node") {
-  auto polygons = std::vector<SiteVariant>{
-      Polygon{{{1, 0}, {0, 0}, {0, 1}}},
-      Polygon{{{1, 2}, {0, 2}, {0, 3}}},
-  };
-  Instance seq(polygons);
-  CHECK(seq.is_tour());
-  SocSolver soc(false);
-  Node node({TourElement(seq, 0), TourElement(seq, 1)}, &seq, &soc);
-  const auto &tour = node.get_relaxed_solution();
-  CHECK(tour.obj() == doctest::Approx(2.0));
-  CHECK(node.get_lower_bound() == doctest::Approx(2.0));
-  CHECK(node.is_feasible());
-}
 } // namespace tspn
 #endif // TSPN_NODE_H

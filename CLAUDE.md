@@ -31,19 +31,19 @@ python3 setup.py develop
 **Run all tests:**
 ```bash
 cd tspn
-pytest -s tests
+pytest -s tests/python
 ```
 
 **Run a single test file:**
 ```bash
 cd tspn
-pytest -s tests/test_tours.py
+pytest -s tests/python/test_tours.py
 ```
 
 **Run a specific test:**
 ```bash
 cd tspn
-pytest -s tests/test_tours.py::test_name
+pytest -s tests/python/test_tours.py::test_name
 ```
 
 ### C++ Development
@@ -126,7 +126,10 @@ tspn/
 ├── pysrc/tspn_bnb2/       # Python package source
 │   ├── core/              # Python bindings
 │   └── misc/              # Python utilities
-├── tests/                 # Both C++ and Python tests
+├── tests/
+│   ├── cpp/               # C++ tests (Google Test)
+│   ├── python/            # Python tests (pytest)
+│   └── instances/         # Shared test data
 ├── pyexamples/            # Python usage examples
 ├── instances/             # Test instances (OSM-based)
 ├── apps/                  # C++ standalone applications
@@ -159,6 +162,7 @@ Python callbacks allow runtime customization:
 
 ### Testing
 
-- C++ tests use doctest framework (`tests/doctest.cpp`)
-- Python tests use pytest (`tests/test_*.py`)
+- C++ tests use Google Test (`tests/cpp/test_*.cpp`)
+- Python tests use pytest (`tests/python/test_*.py`)
+- Test instances shared in `tests/instances/`
 - Tests cover tours, paths, and dynamic programming approaches

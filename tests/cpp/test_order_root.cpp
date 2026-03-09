@@ -1,14 +1,13 @@
-#pragma once
+// Tests for OrderRootStrategy from tspn/strategies/root_node_strategy.h
 
-#include "doctest/doctest.h"
+#include <gtest/gtest.h>
+
 #include "tspn/common.h"
 #include "tspn/node.h"
 #include "tspn/soc.h"
 #include "tspn/strategies/root_node_strategy.h"
 
-namespace {
-
-TEST_CASE("OrderRootStrategy picks non-overlapping annotated sites") {
+TEST(OrderRootStrategy, PicksNonOverlappingAnnotatedSites) {
   std::vector<tspn::SiteVariant> sites;
   sites.push_back(tspn::Polygon{{{0, 0}, {1, 0}, {1, 1}, {0, 1}}});
   sites.push_back(tspn::Polygon{{{2, 0}, {3, 0}, {3, 1}, {2, 1}}});
@@ -27,8 +26,7 @@ TEST_CASE("OrderRootStrategy picks non-overlapping annotated sites") {
   auto root = strat.get_root_node(instance, soc);
 
   const auto &seq = root->get_fixed_sequence();
-  CHECK(seq.size() >= 2);
-  // should contain 0 but not 1 due to overlap exclusion
+  EXPECT_GE(seq.size(), 2);
   bool has0 = false;
   bool has1 = false;
   for (const auto &te : seq) {
@@ -39,8 +37,6 @@ TEST_CASE("OrderRootStrategy picks non-overlapping annotated sites") {
       has1 = true;
     }
   }
-  CHECK(has0 == true);
-  CHECK(has1 == false);
+  EXPECT_TRUE(has0);
+  EXPECT_FALSE(has1);
 }
-
-} // namespace

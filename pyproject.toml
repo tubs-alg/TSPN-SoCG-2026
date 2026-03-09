@@ -106,7 +106,7 @@ ignore = [
     "SIM108",   # ternary operator — less readable for multi-line conditionals
     "PERF401",  # list.extend — fine for scripts
 ]
-"tests/*" = [
+"tests/python/*" = [
     "D100",     # module docstrings not needed for tests
     "D103",     # function docstrings not needed for tests
     "ANN",      # type annotations not needed for tests
@@ -116,6 +116,9 @@ ignore = [
     "ARG001",   # unused function arguments — common in callbacks
     "B017",     # pytest.raises(Exception) — C++ bindings throw generic exceptions
 ]
+
+[tool.pytest.ini_options]
+testpaths = ["tests/python"]
 
 [tool.ruff.lint.pycodestyle]
 max-doc-length=100

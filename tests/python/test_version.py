@@ -6,7 +6,7 @@ from pathlib import Path
 
 def _get_setup_version() -> str:
     """Parse the version string from setup.py without importing it."""
-    setup_py = Path(__file__).parent.parent / "setup.py"
+    setup_py = Path(__file__).parent.parent.parent / "setup.py"
     tree = ast.parse(setup_py.read_text())
     for node in ast.walk(tree):
         if isinstance(node, ast.Call) and getattr(node.func, "id", None) == "setup":

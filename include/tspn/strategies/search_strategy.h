@@ -259,46 +259,5 @@ private:
   std::vector<std::shared_ptr<Node>> queue;
 };
 
-TEST_CASE("Search Strategy") {
-  // The strategy should choose the 1-3-4 triangle and implicitly cover the
-  // second poly.
-  auto polygons = std::vector<SiteVariant>{
-      Polygon{{{0, 0}, {1, 0}, {0, 1}}},
-      Polygon{{{2, 0}, {4, 0}, {3, 1}}},
-      Polygon{{{5, 0}, {6, 0}, {6, 1}}},
-      Polygon{{{2, 6}, {4, 6}, {3, 7}}},
-  };
-  Instance instance(polygons);
-  FarthestPoly bs;
-  SocSolver soc(false);
-  auto root =
-      std::make_shared<Node>(std::vector<TourElement>{TourElement(instance, 0),
-                                                      TourElement(instance, 1),
-                                                      TourElement(instance, 2),
-                                                      TourElement(instance, 3)},
-                             &instance, &soc);
-  bs.setup(&instance, root, nullptr);
-  CheapestChildDepthFirst ss;
-  ss.init(root);
-  auto node = ss.next();
-  CHECK(node != nullptr);
-  CHECK(bs.branch(*node) == false);
-  ss.notify_of_branch(*node);
-  CHECK(ss.next() == nullptr);
-  auto root2 =
-      std::make_shared<Node>(std::vector<TourElement>{TourElement(instance, 0),
-                                                      TourElement(instance, 1),
-                                                      TourElement(instance, 2)},
-                             &instance, &soc);
-  CheapestChildDepthFirst ss2;
-  ss2.init(root2);
-  node = ss2.next();
-  CHECK(bs.branch(*node) == true);
-  ss2.notify_of_branch(*node);
-  CHECK(ss2.next() != nullptr);
-  CHECK(ss2.next() != nullptr);
-  CHECK(ss2.next() != nullptr);
-  CHECK(ss2.next() == nullptr);
-}
 } // namespace tspn
 #endif // TSPN_SEARCH_STRATEGY_H

@@ -1,21 +1,14 @@
-/**
- * In this test, we want to check the lazy callback capability of our approach.
- * Note that the lazy constraints should only add circles within the convex
- * hull. Otherwise, the result may be wrong.
- *
- * Note that it is best to start with a feasible solution, which of course
- * has to satisfy all lazy constraints.
- */
+// Tests for lazy callback capability
 
-#ifndef TSPN_LAZY_CALLBACK_TESTS_H
-#define TSPN_LAZY_CALLBACK_TESTS_H
+#include <gtest/gtest.h>
 
-#include "doctest/doctest.h"
 #include "tspn/bnb.h"
 #include "tspn/callbacks.h"
 #include <boost/geometry.hpp>
 
 namespace bg = boost::geometry;
+
+namespace {
 
 class LazyCB : public tspn::B2BNodeCallback {
 public:
@@ -34,7 +27,9 @@ private:
   std::vector<tspn::SiteVariant> polys;
 };
 
-TEST_CASE("Lazy Callback") {
+} // namespace
+
+TEST(LazyCallback, BasicLazyConstraints) {
   std::vector<tspn::SiteVariant> polys;
   for (double x = 0; x <= 10; x += 2.0) {
     for (double y = 0; y <= 10; y += 2.0) {
@@ -62,9 +57,7 @@ TEST_CASE("Lazy Callback") {
       branching_strategy, search_strategy);
   bnb.add_node_callback(std::make_unique<LazyCB>(polys));
   bnb.optimize(60, 0.01);
-  CHECK(bnb.get_solution());
-  CHECK(bnb.get_upper_bound() <= 48.0);
-  CHECK(bnb.get_lower_bound() >= 36.0);
+  EXPECT_TRUE(bnb.get_solution() != nullptr);
+  EXPECT_LE(bnb.get_upper_bound(), 48.0);
+  EXPECT_GE(bnb.get_lower_bound(), 36.0);
 }
-
-#endif // TSPN_LAZY_CALLBACK_TESTS_H

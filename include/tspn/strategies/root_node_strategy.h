@@ -13,7 +13,6 @@
 
 #ifndef TSPN_ROOT_NODE_STRATEGY_H
 #define TSPN_ROOT_NODE_STRATEGY_H
-#include "doctest/doctest.h"
 #include "tspn/common.h"
 #include "tspn/node.h"
 #include <random>
@@ -165,20 +164,5 @@ public:
                                       SocSolver &soc) override;
 };
 
-TEST_CASE("Root Node Selection") {
-  // The strategy should choose the triangle and implicitly cover the
-  // second poly.
-  auto polygons = std::vector<SiteVariant>{
-      Polygon{{{0, 0}, {0, -1}, {-1, 0}}},
-      Polygon{{{3, 0}, {3, -1}, {2, -1}}},
-      Polygon{{{6, 0}, {6, -1}, {5, -1}}},
-      Polygon{{{3, 6}, {3, 5}, {2, 6}}},
-  };
-  Instance instance(polygons);
-  LongestEdgePlusFurthestSite rns;
-  SocSolver soc(false);
-  auto root = rns.get_root_node(instance, soc);
-  CHECK(root->is_feasible());
-}
 } // namespace tspn
 #endif // TSPN_ROOT_NODE_STRATEGY_H

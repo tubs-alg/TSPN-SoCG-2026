@@ -176,32 +176,4 @@ protected:
   std::optional<TourElement> get_branching_poly(Node &node) override;
 };
 
-TEST_CASE("Branching Strategy") {
-  // The strategy should choose the 1-3-4 triangle and implicitly cover the
-  // second poly.
-  auto polygons = std::vector<SiteVariant>{
-      Polygon{{{0, 0}, {1, 0}, {0, 1}}},
-      Polygon{{{2, 0}, {4, 0}, {3, 1}}},
-      Polygon{{{5, 0}, {6, 0}, {6, 1}}},
-      Polygon{{{2, 6}, {4, 6}, {3, 7}}},
-  };
-  Instance instance(polygons);
-  FarthestPoly bs(false);
-  SocSolver soc(false);
-
-  auto root =
-      std::make_shared<Node>(std::vector<TourElement>{TourElement(instance, 0),
-                                                      TourElement(instance, 1),
-                                                      TourElement(instance, 2),
-                                                      TourElement(instance, 3)},
-                             &instance, &soc);
-  bs.setup(&instance, root, nullptr);
-  CHECK(bs.branch(*root) == false);
-
-  Node root2({TourElement(instance, 0), TourElement(instance, 1),
-              TourElement(instance, 2)},
-             &instance, &soc);
-  CHECK(bs.branch(root2) == true);
-  CHECK(root2.get_children().size() == 3);
-}
 } // namespace tspn

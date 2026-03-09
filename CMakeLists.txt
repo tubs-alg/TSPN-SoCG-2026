@@ -37,7 +37,7 @@ include(./cmake/CCache.cmake) # Magic to speed up compiling by caching.
 # list(APPEND CMAKE_PREFIX_PATH "${CMAKE_SOURCE_DIR}/.conan")
 # Also need to be defined in `./conanfile.txt`.
 find_package(fmt REQUIRED)
-find_package(doctest REQUIRED)
+find_package(GTest REQUIRED)
 find_package(nlohmann_json REQUIRED CONFIG)
 find_package(CGAL REQUIRED CONFIG)
 find_package(gurobi REQUIRED CONFIG)

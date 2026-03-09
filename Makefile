@@ -2,8 +2,8 @@
 #
 # Targets:
 #   install-python  — install the Python package (triggers C++ build via skbuild-conan)
-#   build-cpp       — configure and build the C++ library and doctests
-#   test-cpp        — run C++ doctests
+#   build-cpp       — configure and build the C++ library and tests
+#   test-cpp        — run C++ tests (Google Test)
 #   test-python     — run Python tests with pytest
 #   test            — run both C++ and Python tests
 #   lint            — run ruff linter and formatter
@@ -15,7 +15,7 @@
 BUILD_DIR     := build
 CONAN_DIR     := .conan/release
 TOOLCHAIN     := $(CONAN_DIR)/conan_toolchain.cmake
-TEST_BIN      := $(BUILD_DIR)/tests/doctests
+TEST_BIN      := $(BUILD_DIR)/tests/cpp/cpp_tests
 
 # Prefer Ninja if available
 CMAKE_GENERATOR := $(shell command -v ninja >/dev/null 2>&1 && echo "Ninja" || echo "Unix Makefiles")
@@ -33,14 +33,14 @@ build-cpp: $(TOOLCHAIN)
 		-G "$(CMAKE_GENERATOR)" \
 		-DCMAKE_TOOLCHAIN_FILE=$(TOOLCHAIN) \
 		-DCMAKE_BUILD_TYPE=Release
-	cmake --build $(BUILD_DIR) --target doctests -j4
+	cmake --build $(BUILD_DIR) --target cpp_tests -j4
 
 # ── Tests ────────────────────────────────────────────────────────────
 test-cpp: build-cpp
 	$(TEST_BIN)
 
 test-python: install-python
-	pytest -s tests/
+	pytest -s tests/python/
 
 test: test-cpp test-python
 

@@ -84,7 +84,7 @@ setup(  # https://scikit-build.readthedocs.io/en/latest/usage.html#setup-options
         "boost/[>=1.83.0]",
         "mpfr/[>=4.2.1]",
         "fmt/[>=11.0.0]",
-        "doctest/[>=2.4.11]",
+        "gtest/[>=1.14]",
         "pybind11/[>=2.13.6]",
     ],
 )

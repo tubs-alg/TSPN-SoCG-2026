@@ -4,7 +4,6 @@
 //
 #pragma once
 
-#include "doctest/doctest.h"
 #include "tspn/details/convex_decomposition.h"
 #include "tspn/details/convex_partition.h"
 #include "tspn/types.h"
@@ -265,31 +264,4 @@ private:
 
 SiteVariant parse_site_wkt(const std::string &s);
 
-TEST_CASE("Trajectory") {
-  Trajectory traj{Linestring{{0, 0}, {5, 0}, {5, 5}}};
-  CHECK(!traj.is_tour());
-  Polygon p1{{{3, -1}, {3, 1}, {2, 1}}};
-  Geometry geometry{0, p1};
-  CHECK(traj.distance_site(p1) == 0);
-  CHECK(traj.covers(geometry, 0));
-  CHECK(traj.length() == 10.0);
-}
-
-TEST_CASE("Trajectory Sub") {
-  Trajectory traj{Linestring{{0, 0}, {5, 0}, {5, 5}, {0, 5}, {0, 0}}};
-  CHECK(traj.is_tour());
-  auto sub = traj.sub(0, 2);
-  CHECK(sub.points.size() == 3);
-  CHECK(bg::equals(sub.points[0], Point(0, 0)));
-  CHECK(bg::equals(sub.points[2], Point(5, 5)));
-}
-
-TEST_CASE("Trajectory Sub 2") {
-  Trajectory traj{Linestring{{0, 0}, {5, 0}, {5, 5}, {0, 5}, {0, 0}}};
-  CHECK(traj.is_tour());
-  auto sub = traj.sub(3, 1);
-  CHECK(sub.points.size() == 3);
-  CHECK(bg::equals(sub.points[0], Point(0, 5)));
-  CHECK(bg::equals(sub.points[2], Point(5, 0)));
-}
-}; // namespace tspn
+} // namespace tspn

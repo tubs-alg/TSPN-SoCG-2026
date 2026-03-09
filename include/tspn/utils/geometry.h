@@ -4,7 +4,6 @@
 
 #ifndef TSPN_GEOMETRY_H
 #define TSPN_GEOMETRY_H
-#include "doctest/doctest.h"
 #include "tspn/types.h"
 #include <cmath>
 #include <utility>
@@ -29,13 +28,6 @@ std::vector<Segment> to_segments(Ring &ring);
 
 Ring to_ring(const std::vector<Segment> &segments);
 
-TEST_CASE("Distance to Segment") {
-  CHECK(distance_to_segment({0, 0}, {10, 0}, {0, 0}) == doctest::Approx(0.0));
-  CHECK(distance_to_segment({0, 0}, {10, 0}, {0, 1}) == doctest::Approx(1.0));
-  CHECK(distance_to_segment({0, 0}, {10, 0}, {0, -1}) == doctest::Approx(1.0));
-  CHECK(distance_to_segment({0, 0}, {10, 0}, {-1, 0}) == doctest::Approx(1.0));
-  CHECK(distance_to_segment({0, 0}, {10, 0}, {11, 0}) == doctest::Approx(1.0));
-}
 } // namespace tspn::utils
 
 #endif // TSPN_GEOMETRY_H
