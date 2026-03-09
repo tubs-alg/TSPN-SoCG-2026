@@ -100,20 +100,11 @@ ignore = [
     "ARG",      # unused arguments — required by algbench callback API
     "E712",     # == True/False — needed for pandas boolean indexing
     "B905",     # zip strict — not needed for scripts
-    "B007",     # unused loop variable — common in exploratory code
-    "PTH123",   # open() vs Path.open() — fine for scripts
-    "C408",     # unnecessary list() — fine for scripts
-    "PERF401",  # list.extend — fine for scripts
-    "PLW0602",  # global without assignment — used in notebooks
     "PLW2901",  # loop variable overwritten — common in plot label formatting
-    "F841",     # unused variable — common in exploratory notebooks
-    "PD010",    # .pivot_table vs .unstack — stylistic preference
-    "PD011",    # .to_numpy() vs .values — stylistic preference
-    "NPY201",   # numpy 2.0 deprecations — not yet migrated
     "PLR0915",  # too many statements — notebooks have long cells
-    "RUF013",   # implicit Optional — not strict about this in scripts
-    "SIM108",   # ternary operator — readability preference
-    "PLC0206",  # dict .items() — not always clearer
+    "PD010",    # .unstack vs .pivot_table — stylistic preference
+    "SIM108",   # ternary operator — less readable for multi-line conditionals
+    "PERF401",  # list.extend — fine for scripts
 ]
 "tests/*" = [
     "D100",     # module docstrings not needed for tests
