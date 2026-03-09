@@ -2,6 +2,8 @@
 #include "doctest/doctest.h"
 
 #include "./lazy_callback_tests.h"
+#include "order_filtering_tests.h"
+#include "order_root_tests.h"
 #include "tspn/bnb.h"
 #include "tspn/common.h"
 #include "tspn/node.h"
@@ -13,6 +15,3 @@
 #include "tspn/strategies/root_node_strategy.h"
 #include "tspn/strategies/search_strategy.h"
 #include "tspn/utils/geometry.h"
-#include "order_filtering_tests.h"
-#include "order_root_tests.h"
-#include "order_filtering_tests.h"

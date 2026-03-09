@@ -286,13 +286,11 @@ class AnnotatedSolution(BaseModel):
 
                 if "mip_gap" in self.statistics:
                     # Gurobi uses the relative mip gap
-                    checks["optimality_flag_consistent"] = (self.upper_bound-self.lower_bound) / self.upper_bound <= (
-                            1 + eps
-                    )
+                    gap = (self.upper_bound - self.lower_bound) / self.upper_bound
+                    checks["optimality_flag_consistent"] = gap <= (1 + eps)
                 else:
-                    checks["optimality_flag_consistent"] = self.upper_bound / self.lower_bound <= (
-                        1 + eps
-                    )
+                    ratio = self.upper_bound / self.lower_bound
+                    checks["optimality_flag_consistent"] = ratio <= (1 + eps)
                 if not checks["optimality_flag_consistent"]:
                     errors.append(
                         f"Optimality flag inconsistent: is_optimal=True but "

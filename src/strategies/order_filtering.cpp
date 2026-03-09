@@ -95,8 +95,9 @@ bool OrderFiltering::is_ok(const std::vector<TourElement> &seq,
     const auto &overlaps_i = geo_i.annotations.overlapping_order_geo_indices;
 
     // Skip constraint if any pair overlaps
-    if (std::find(overlaps_i.begin(), overlaps_i.end(), new_idx) != overlaps_i.end()) {
-        continue;
+    if (std::find(overlaps_i.begin(), overlaps_i.end(), new_idx) !=
+        overlaps_i.end()) {
+      continue;
     }
 
     const unsigned order_i = *geo_i.annotations.order_index;
@@ -111,8 +112,10 @@ bool OrderFiltering::is_ok(const std::vector<TourElement> &seq,
       }
       const auto &overlaps_k = geo_k.annotations.overlapping_order_geo_indices;
 
-      if(std::find(overlaps_k.begin(), overlaps_k.end(), new_idx) != overlaps_k.end() || // new_idx overlaps k
-         std::find(overlaps_i.begin(), overlaps_i.end(), seq[p_k].geo_index()) != overlaps_i.end()) { // i overlaps k
+      if (std::find(overlaps_k.begin(), overlaps_k.end(), new_idx) !=
+              overlaps_k.end() || // new_idx overlaps k
+          std::find(overlaps_i.begin(), overlaps_i.end(),
+                    seq[p_k].geo_index()) != overlaps_i.end()) { // i overlaps k
         continue;
       }
 
@@ -131,16 +134,15 @@ bool OrderFiltering::is_ok(const std::vector<TourElement> &seq,
           (k_before_j && !is_between_cyclic(order_k, order_j, order_i))) {
         return false;
       }
-
     }
   }
 
   return true;
 }
 
-std::optional<unsigned>
-OrderFiltering::find_new_element(const std::vector<TourElement> &seq,
-                                 const std::vector<TourElement> &parent_seq) const {
+std::optional<unsigned> OrderFiltering::find_new_element(
+    const std::vector<TourElement> &seq,
+    const std::vector<TourElement> &parent_seq) const {
   std::unordered_set<unsigned> parent_ids;
   parent_ids.reserve(parent_seq.size());
   for (const auto &te : parent_seq) {

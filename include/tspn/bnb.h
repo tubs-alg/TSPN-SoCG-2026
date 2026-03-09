@@ -318,7 +318,8 @@ TEST_CASE("Branch_and_Bound_2") {
                               branching_strategy, search_strategy);
   bnb.optimize(300);
   CHECK(bnb.get_solution());
-  CHECK(bnb.get_solution()->get_trajectory().length() == doctest::Approx(16.6491).epsilon(0.01));
+  CHECK(bnb.get_solution()->get_trajectory().length() ==
+        doctest::Approx(16.6491).epsilon(0.01));
   CHECK(bnb.get_upper_bound() == doctest::Approx(16.6491).epsilon(0.01));
   tspn::utils::draw_geometries("Branch_and_Bound_2.svg", instance,
                                bnb.get_solution()->get_trajectory());

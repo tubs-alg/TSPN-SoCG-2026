@@ -9,10 +9,8 @@
 namespace {
 
 tspn::Polygon square(double x0, double y0, double size) {
-  return tspn::Polygon{{{x0, y0},
-                        {x0 + size, y0},
-                        {x0 + size, y0 + size},
-                        {x0, y0 + size}}};
+  return tspn::Polygon{
+      {{x0, y0}, {x0 + size, y0}, {x0 + size, y0 + size}, {x0, y0 + size}}};
 }
 
 std::vector<tspn::SiteVariant> make_sites() {
@@ -28,7 +26,8 @@ TEST_CASE("OrderFiltering cyclic between check allows correct wrap") {
 
   tspn::SocSolver solver(false);
   std::vector<tspn::TourElement> root_seq;
-  auto root = std::make_shared<tspn::Node>(root_seq, &instance, &solver, nullptr);
+  auto root =
+      std::make_shared<tspn::Node>(root_seq, &instance, &solver, nullptr);
 
   tspn::OrderFiltering rule;
   rule.setup(&instance, root, nullptr);
@@ -54,7 +53,8 @@ TEST_CASE("OrderFiltering rejects wrong cyclic order") {
 
   tspn::SocSolver solver(false);
   std::vector<tspn::TourElement> root_seq;
-  auto root = std::make_shared<tspn::Node>(root_seq, &instance, &solver, nullptr);
+  auto root =
+      std::make_shared<tspn::Node>(root_seq, &instance, &solver, nullptr);
 
   tspn::OrderFiltering rule;
   rule.setup(&instance, root, nullptr);
@@ -79,7 +79,8 @@ TEST_CASE("OrderFiltering allows ties with j") {
 
   tspn::SocSolver solver(false);
   std::vector<tspn::TourElement> root_seq;
-  auto root = std::make_shared<tspn::Node>(root_seq, &instance, &solver, nullptr);
+  auto root =
+      std::make_shared<tspn::Node>(root_seq, &instance, &solver, nullptr);
 
   tspn::OrderFiltering rule;
   rule.setup(&instance, root, nullptr);
@@ -99,12 +100,13 @@ TEST_CASE("OrderFiltering skips pairs when j is not between i and k") {
   auto sites = make_sites();
   tspn::Instance instance(sites, /*path=*/true);
   instance[0].annotations.order_index = 1;
-  instance[1].annotations.order_index = 5;  // j
+  instance[1].annotations.order_index = 5; // j
   instance[2].annotations.order_index = 3;
 
   tspn::SocSolver solver(false);
   std::vector<tspn::TourElement> root_seq;
-  auto root = std::make_shared<tspn::Node>(root_seq, &instance, &solver, nullptr);
+  auto root =
+      std::make_shared<tspn::Node>(root_seq, &instance, &solver, nullptr);
 
   tspn::OrderFiltering rule;
   rule.setup(&instance, root, nullptr);
@@ -126,13 +128,14 @@ TEST_CASE("OrderFiltering multiple annotated neighbors") {
   sites.push_back(square(6, 0, 1));
   tspn::Instance instance(sites, /*path=*/true);
   instance[0].annotations.order_index = 1;
-  instance[1].annotations.order_index = 3;  // j
+  instance[1].annotations.order_index = 3; // j
   instance[2].annotations.order_index = 5;
   instance[3].annotations.order_index = 7;
 
   tspn::SocSolver solver(false);
   std::vector<tspn::TourElement> root_seq;
-  auto root = std::make_shared<tspn::Node>(root_seq, &instance, &solver, nullptr);
+  auto root =
+      std::make_shared<tspn::Node>(root_seq, &instance, &solver, nullptr);
 
   tspn::OrderFiltering rule;
   rule.setup(&instance, root, nullptr);
@@ -142,20 +145,18 @@ TEST_CASE("OrderFiltering multiple annotated neighbors") {
                                             tspn::TourElement(instance, 3)};
   tspn::Node parent(parent_seq, &instance, &solver, root.get());
 
-  std::vector<tspn::TourElement> child_seq{tspn::TourElement(instance, 0),
-                                           tspn::TourElement(instance, 1),
-                                           tspn::TourElement(instance, 2),
-                                           tspn::TourElement(instance, 3)};
+  std::vector<tspn::TourElement> child_seq{
+      tspn::TourElement(instance, 0), tspn::TourElement(instance, 1),
+      tspn::TourElement(instance, 2), tspn::TourElement(instance, 3)};
 
   CHECK(rule.is_ok(child_seq, parent) == true);
 
   // Violate cyclic order: j (order 3) placed between geo 2 (order 5) and
   // geo 3 (order 7). Cyclically, 3 is NOT between 5 and 7, so this must
   // be rejected.
-  std::vector<tspn::TourElement> bad_seq{tspn::TourElement(instance, 0),
-                                         tspn::TourElement(instance, 2),
-                                         tspn::TourElement(instance, 1),
-                                         tspn::TourElement(instance, 3)};
+  std::vector<tspn::TourElement> bad_seq{
+      tspn::TourElement(instance, 0), tspn::TourElement(instance, 2),
+      tspn::TourElement(instance, 1), tspn::TourElement(instance, 3)};
   tspn::Node bad_parent(parent_seq, &instance, &solver, root.get());
   CHECK(rule.is_ok(bad_seq, bad_parent) == false);
 }
@@ -167,7 +168,8 @@ TEST_CASE("OrderFiltering ignores unannotated geometries") {
 
   tspn::SocSolver solver(false);
   std::vector<tspn::TourElement> root_seq;
-  auto root = std::make_shared<tspn::Node>(root_seq, &instance, &solver, nullptr);
+  auto root =
+      std::make_shared<tspn::Node>(root_seq, &instance, &solver, nullptr);
 
   tspn::OrderFiltering rule;
   rule.setup(&instance, root, nullptr);

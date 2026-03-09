@@ -87,7 +87,7 @@ def plot_site(ax: plt.Axes, site: Point | Circle | Ring | Polygon, **kwargs: Any
         patch = patchify([site], **kwargs)
         ax.add_patch(patch)
     elif isinstance(site, Polygon):
-        poly = load_wkt(str(site))  # type: ShapelyPolygon
+        poly: ShapelyPolygon = load_wkt(str(site))
         assert isinstance(poly, ShapelyPolygon)
 
         plot_polygon(poly, ax=ax, **kwargs)
@@ -118,7 +118,7 @@ def plot_sites(
         if text is not None and text[i] is not None:
             bbl = p.bbox().min_corner()
             bbh = p.bbox().max_corner()
-            col = textcolor if textcolor else color
+            col = textcolor or color
             ax.text(
                 x=(bbl.x + 0.5 * (bbh.x - bbl.x)),
                 y=(bbl.y + 0.5 * (bbh.y - bbl.y)),

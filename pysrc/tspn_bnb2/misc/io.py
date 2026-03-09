@@ -32,7 +32,7 @@ def write_instance(
     data = {
         "type": "tspn_instance",
         "instancename": instancename,
-        "meta": meta if meta else {},
+        "meta": meta or {},
         "sites": [f"{site.__repr__()}" for site in instance.sites()],
         "path": instance.is_path(),
     }

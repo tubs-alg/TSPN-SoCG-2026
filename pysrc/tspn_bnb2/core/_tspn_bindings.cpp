@@ -181,9 +181,8 @@ branch_and_bound(Instance instance,
   baba.set_ub_callback(ub_cb);
   { // Callbacks
     if (py_callback || py_lazy_callback) {
-      baba.add_node_callback(
-          std::make_unique<PythonCallback>(py_callback,
-                                           std::move(py_lazy_callback)));
+      baba.add_node_callback(std::make_unique<PythonCallback>(
+          py_callback, std::move(py_lazy_callback)));
     }
   }
   if (initial_solution != nullptr) {
@@ -199,13 +198,13 @@ PYBIND11_MODULE(_tspn_bindings, m) {
   // instead of the default "Caught an unknown exception!" message.
   py::register_exception_translator([](std::exception_ptr p) {
     try {
-      if (p) std::rethrow_exception(p);
+      if (p)
+        std::rethrow_exception(p);
     } catch (const GRBException &e) {
-      PyErr_SetString(
-          PyExc_RuntimeError,
-          fmt::format("Gurobi error (code {}): {}", e.getErrorCode(),
-                      e.getMessage())
-              .c_str());
+      PyErr_SetString(PyExc_RuntimeError,
+                      fmt::format("Gurobi error (code {}): {}",
+                                  e.getErrorCode(), e.getMessage())
+                          .c_str());
     }
   });
 

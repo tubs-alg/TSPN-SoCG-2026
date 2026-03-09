@@ -96,7 +96,7 @@ void PartialSequenceSolution::simplify() {
 
   auto &sequence = spanning_trajectory.sequence;
 
-  if(sequence.size() < 12) {
+  if (sequence.size() < 12) {
     return;
   }
 

@@ -4,8 +4,8 @@
 #include <algorithm>
 #include <boost/geometry.hpp>
 #include <numeric>
-#include <unordered_set>
 #include <random>
+#include <unordered_set>
 #include <vector>
 
 namespace bg = boost::geometry;
@@ -307,8 +307,8 @@ std::shared_ptr<Node> LongestPair::get_root_node(Instance &instance,
     if (instance.size() >= 2) {
       seq.emplace_back(instance, 1);
     }
-    std::cout << "  path root -> [" << 0 << ", " << (instance.size() >= 2 ? 1 : 0)
-              << "]" << std::endl;
+    std::cout << "  path root -> [" << 0 << ", "
+              << (instance.size() >= 2 ? 1 : 0) << "]" << std::endl;
     return std::make_shared<Node>(seq, &instance, &soc);
   }
   if (instance.size() <= 2) {
@@ -321,8 +321,8 @@ std::shared_ptr<Node> LongestPair::get_root_node(Instance &instance,
     return std::make_shared<Node>(seq, &instance, &soc);
   }
   auto max_pair = find_max_pair(instance);
-  std::cout << "  tour root max pair (" << max_pair.first << ", " << max_pair.second
-            << ")" << std::endl;
+  std::cout << "  tour root max pair (" << max_pair.first << ", "
+            << max_pair.second << ")" << std::endl;
   return std::make_shared<Node>(
       std::vector<TourElement>{TourElement(instance, max_pair.first),
                                TourElement(instance, max_pair.second)},
@@ -338,8 +338,8 @@ std::shared_ptr<Node> RandomPair::get_root_node(Instance &instance,
     if (instance.size() >= 2) {
       seq.emplace_back(instance, 1);
     }
-    std::cout << "  path root -> [" << 0 << ", " << (instance.size() >= 2 ? 1 : 0)
-              << "]" << std::endl;
+    std::cout << "  path root -> [" << 0 << ", "
+              << (instance.size() >= 2 ? 1 : 0) << "]" << std::endl;
     return std::make_shared<Node>(seq, &instance, &soc);
   }
   if (instance.size() <= 2) {
@@ -393,7 +393,8 @@ std::shared_ptr<Node> OrderRootStrategy::get_root_node(Instance &instance,
       continue;
     }
     selected.push_back(geo_idx);
-    const auto &overlaps = instance[geo_idx].annotations.overlapping_order_geo_indices;
+    const auto &overlaps =
+        instance[geo_idx].annotations.overlapping_order_geo_indices;
     excluded.insert(overlaps.begin(), overlaps.end());
   }
 
@@ -434,9 +435,9 @@ std::shared_ptr<Node> OrderRootStrategy::get_root_node(Instance &instance,
     if (instance.size() > 1) {
       seq.emplace_back(instance, max_pair.second);
     }
-    std::cout << "  fallback max pair (" << (seq.empty() ? 0 : seq[0].geo_index())
-              << ", " << (seq.size() > 1 ? seq[1].geo_index() : 0) << ")"
-              << std::endl;
+    std::cout << "  fallback max pair ("
+              << (seq.empty() ? 0 : seq[0].geo_index()) << ", "
+              << (seq.size() > 1 ? seq[1].geo_index() : 0) << ")" << std::endl;
   } else {
     for (auto idx : selected) {
       seq.emplace_back(instance, idx);
@@ -453,6 +454,5 @@ std::shared_ptr<Node> OrderRootStrategy::get_root_node(Instance &instance,
   std::cout << std::endl;
 
   return std::make_shared<Node>(simplified_sequence, &instance, &soc);
-
 }
 } // namespace tspn

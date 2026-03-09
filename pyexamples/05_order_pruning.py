@@ -9,10 +9,9 @@ Demonstrates the complete flow:
 """
 
 import matplotlib.pyplot as plt
+from _utils import generate_random_instance
 from matplotlib.patches import Polygon as MplPolygon
 from shapely.plotting import plot_line
-
-from _utils import generate_random_instance
 from tspn_bnb2.operations import simplify_annotated_instance, solve_annotated_instance
 from tspn_bnb2.order_annotation import add_order_annotations
 
@@ -139,7 +138,7 @@ def main():
 
     # --- Step 6: Plot ---
     print("\nStep 6: Plotting...")
-    fig, axes = plt.subplots(1, 3, figsize=(15, 5))
+    _fig, axes = plt.subplots(1, 3, figsize=(15, 5))
 
     plot_instance(axes[0], annotated, title="Order Annotations")
 

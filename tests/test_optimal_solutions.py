@@ -9,7 +9,6 @@ import lzma
 from pathlib import Path
 
 import numpy as np
-
 from tspn_bnb2.operations import solve_annotated_instance
 from tspn_bnb2.schemas import AnnotatedInstance, AnnotatedSolution
 
@@ -34,16 +33,16 @@ def load_optimal_solutions() -> list[tuple[str, AnnotatedInstance, AnnotatedSolu
     ]
 
 
-def _check_solution_correct(name: str, solution: AnnotatedSolution, instance: AnnotatedInstance, eps: float = 0.001):
+def _check_solution_correct(
+    name: str, solution: AnnotatedSolution, instance: AnnotatedInstance, eps: float = 0.001
+):
     assert solution.is_tour, f"[{name}] Not a valid tour"
 
     assert solution.lower_bound <= solution.upper_bound + eps, (
         f"[{name}] LB > UB: {solution.lower_bound} > {solution.upper_bound}"
     )
 
-    assert solution.check_feasibility(instance), (
-        f"[{name}] Trajectory doesn't visit all polygons"
-    )
+    assert solution.check_feasibility(instance), f"[{name}] Trajectory doesn't visit all polygons"
 
     assert np.isclose(solution.trajectory.length, solution.upper_bound, rtol=eps), (
         f"[{name}] Trajectory length mismatch: "
@@ -52,11 +51,11 @@ def _check_solution_correct(name: str, solution: AnnotatedSolution, instance: An
 
 
 def _verify_solution(
-        name: str,
-        instance: AnnotatedInstance,
-        solution: AnnotatedSolution,
-        expected: AnnotatedSolution,
-        eps: float = 0.001,
+    name: str,
+    instance: AnnotatedInstance,
+    solution: AnnotatedSolution,
+    expected: AnnotatedSolution,
+    eps: float = 0.001,
 ) -> None:
     """Verify that a solution is valid and optimal.
 
@@ -80,7 +79,7 @@ def _verify_solution(
 
     best_lb = max(solution.lower_bound, expected.lower_bound)
     best_ub = min(solution.upper_bound, expected.upper_bound)
-    assert best_lb <= best_ub * (1+eps), ( # 1+eps due to numerical inaccuracies.
+    assert best_lb <= best_ub * (1 + eps), (  # 1+eps due to numerical inaccuracies.
         f"[{name}] Cross-solution bounds inconsistent: "
         f"best_LB={best_lb:.6f} > best_UB={best_ub:.6f}"
     )
