@@ -1,0 +1,43 @@
+{
+  "polygons": [
+    "POLYGON ((8.2 6.38, 4.440892098500626e-16 21.58, 0 21.58, 9.36 27.14, 22.08 5.98, 12.03 0, 8.2 6.38))",
+    "POLYGON ((15.63 21.11, 24.97 26.46, 33.01 12.63, 23.68 7.26, 15.63 21.11))",
+    "POLYGON ((43.08 35.44, 50.94 40.5, 60.95 25.15, 53.09 20.09, 43.08 35.44))",
+    "POLYGON ((60.94 40.16, 69.87 45.9, 76.36 35.93, 67.45 30.2, 60.94 40.16))"
+  ],
+  "meta": {
+    "source_file": "lagos",
+    "part": 3149,
+    "seed": 3149,
+    "size": 5,
+    "n_polygons": 5,
+    "geo_information": {
+      "crs": "EPSG:32631",
+      "utm_zone": 31
+    },
+    "coordinate_shift": {
+      "shift_x": -533936.39,
+      "shift_y": -731219.09,
+      "original_bounds": {
+        "min_x": 533936.39,
+        "min_y": 731219.09,
+        "max_x": 534012.76,
+        "max_y": 731265.0
+      }
+    }
+  },
+  "annotations": {
+    "0": {
+      "hull_index": 0,
+      "intersections": []
+    },
+    "2": {
+      "hull_index": 1,
+      "intersections": []
+    },
+    "3": {
+      "hull_index": 2,
+      "intersections": []
+    }
+  }
+}

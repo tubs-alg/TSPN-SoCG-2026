@@ -1,0 +1,12 @@
+[requires]
+nlohmann_json/[>=3.11]
+gurobi/[>=12.0.0]
+cgal/[>=6.0.1]
+boost/[>=1.83.0]
+mpfr/[>=4.2.1]
+fmt/[>=11.2.0]
+doctest/[>=2.4.11]
+pybind11/[>=2.13.6]
+[generators]
+CMakeDeps
+CMakeToolchain

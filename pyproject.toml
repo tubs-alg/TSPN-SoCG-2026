@@ -1,0 +1,109 @@
+[build-system]
+requires = [
+    "conan>=2.0.0",
+    "setuptools",
+    "scikit-build>=0.18.0",
+    "skbuild-conan",
+    "cmake (>=3.23, <4)",
+    "ninja",
+]
+build-backend = "setuptools.build_meta"
+
+[tool.ruff]
+target-version = "py312"
+line-length = 100
+extend-exclude = [
+    "cmake/conan",
+]
+
+[tool.ruff.lint]
+select = [
+    "ANN",  # flake8-annotations
+    "S",    # flake8-bandit
+    "BLE",  # flake8-blind-except
+    "B",    # flake8-bugbear
+    "A",    # flake8-builtins
+    "COM",  # flake8-commas
+    "C4",   # flake8-comprehensions
+    "DTZ",  # flake8-datetimez
+    "EM",   # flake8-errmsg
+    "INT",  # flake8-gettext
+    "ISC",  # flake8-implicit-str-concat
+    "ICN",  # flake8-import-conventions
+    "PIE",  # flake8-pie
+    "PYI",  # flake8-pyi
+    "Q",    # flake8-quotes
+    "RSE",  # flake8-raise
+    "RET",  # flake8-return
+    "SLF",  # flake8-self
+    "SIM",  # flake8-simplify
+    "TID",  # flake8-tidy-imports
+    "ARG",  # flake8-unused-arguments
+    "PTH",  # flake8-use-pathlib
+    "FLY",  # flytn
+    "I",    # isort
+    "C90",  # mmcabe
+    "NPY",  # NumPy-specific rules
+    "PD",   # pandas-vet
+    "N",    # pep8-naming
+    "PERF", # Perflint
+    "E",    # Error
+    "W",    # Warning
+    "D",    # pydocstyle
+    "F",    # Pyflakes
+    "PL",   # Pylint
+    "UP",   # pyupgrade
+    "FURB", # refurb
+    "RUF",  # Ruff-specific- rules
+    "TRY",  # tryceratops
+]
+
+ignore = [
+    "W191",     # tab-indentation
+    "COM812",
+    "D203",     # collides with D211
+    "D213",     # collides with D212
+    "EM101",    # string in exception
+    "EM102",    # f-string in exception — acceptable for clear error messages
+    "TRY003",   # long messages outside the exception class
+    "B019",     # functools cache mem leak
+    "ANN401",   # Any-typehint for arguments
+    "S101",     # use of assert
+    "N803",     # uppercase argument names — used for math notation (A, M)
+    "N806",     # uppercase variable names — used for math notation (A, M, G)
+    "PLR2004",  # magic values — ubiquitous in math/geometry code
+    "S311",     # pseudo-random generators — not doing crypto
+    "RUF002",   # ambiguous unicode — intentional math symbols in docstrings
+    "RUF005",   # iterable unpacking — list concat is clearer in many cases
+    "PLR0913",  # too many arguments — solver/algorithm APIs need many params
+    "PLC0415",  # imports not at top — lazy imports are intentional
+    "C901",     # too complex — validation functions are inherently complex
+    "PLR0912",  # too many branches — validation functions need many branches
+]
+
+[tool.ruff.lint.per-file-ignores]
+"pyexamples/*" = [
+    "D100",     # module docstrings not needed for example scripts
+    "D103",     # function docstrings not needed for example scripts
+    "ANN",      # type annotations not needed for example scripts
+    "E402",     # late imports — fine for linear example scripts
+    "F403",     # star imports — fine for examples
+    "F405",     # undefined names from star imports — fine for examples
+    "B905",     # zip strict — not needed for examples
+    "C408",     # unnecessary list() — fine for examples
+    "S108",     # hardcoded tmp paths — fine for examples
+    "PTH123",   # open() vs Path.open() — fine for examples
+]
+"tests/*" = [
+    "D100",     # module docstrings not needed for tests
+    "D103",     # function docstrings not needed for tests
+    "ANN",      # type annotations not needed for tests
+    "PTH123",   # open() vs Path.open() — fine for tests
+    "RUF059",   # unused unpacked variables — common in test assertions
+    "B905",     # zip strict — not needed for tests
+    "ARG001",   # unused function arguments — common in callbacks
+    "B017",     # pytest.raises(Exception) — C++ bindings throw generic exceptions
+]
+
+[tool.ruff.lint.pycodestyle]
+max-doc-length=100

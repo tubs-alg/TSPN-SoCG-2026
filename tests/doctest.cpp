@@ -1,0 +1,18 @@
+#define DOCTEST_CONFIG_IMPLEMENT_WITH_MAIN
+#include "doctest/doctest.h"
+
+#include "./lazy_callback_tests.h"
+#include "tspn/bnb.h"
+#include "tspn/common.h"
+#include "tspn/node.h"
+#include "tspn/relaxed_solution.h"
+#include "tspn/sampling/dp.h"
+#include "tspn/sampling/voronoi.h"
+#include "tspn/soc.h"
+#include "tspn/strategies/branching_strategy.h"
+#include "tspn/strategies/root_node_strategy.h"
+#include "tspn/strategies/search_strategy.h"
+#include "tspn/utils/geometry.h"
+#include "order_filtering_tests.h"
+#include "order_root_tests.h"
+#include "order_filtering_tests.h"
