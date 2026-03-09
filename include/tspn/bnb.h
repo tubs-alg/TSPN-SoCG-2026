@@ -247,7 +247,6 @@ private:
   }
 
   void branch_node(std::shared_ptr<Node> &node) {
-    double ub = solution_pool.get_upper_bound();
     if (branching_strategy.branch(*node)) {
       num_branches += 1;
       search_strategy.notify_of_branch(*node);

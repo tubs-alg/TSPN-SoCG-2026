@@ -38,8 +38,8 @@ public:
                           std::vector<TourElement> sequence_,
                           std::list<StashedTourElement> stash,
                           double feasibility_tol = 0.001)
-      : spanning_trajectory(instance, soc, std::move(sequence_)),
-        instance{instance}, FEASIBILITY_TOL{feasibility_tol}, stash{stash} {
+      : stash{stash}, spanning_trajectory(instance, soc, std::move(sequence_)),
+        FEASIBILITY_TOL{feasibility_tol}, instance{instance} {
     const auto &sequence = spanning_trajectory.sequence;
     if (sequence.empty() && !instance->is_path()) {
       throw std::invalid_argument("Cannot trigger_lazy_computation tour "
@@ -145,8 +145,8 @@ protected:
 
 private:
   bool simplified = false;
-  const Instance *instance;
   double FEASIBILITY_TOL;
+  const Instance *instance;
 };
 
 class Solution : public PartialSequenceSolution {
