@@ -210,6 +210,7 @@ _skbuild
 CMakeUserPresets.json
 **/cmake-build*
 *.cmake
+!./cmake/CCache.cmake
 .vscode
 .idea
 _deps
