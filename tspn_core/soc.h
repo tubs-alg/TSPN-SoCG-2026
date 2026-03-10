@@ -11,7 +11,6 @@
 #pragma once
 
 #include "tspn_core/common.h"
-#include "tspn_core/utils/drawer.h"
 #include <vector>
 
 namespace tspn {

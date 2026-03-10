@@ -164,7 +164,6 @@ public:
   bool listorder(const TourElement &rhs) const;
   bool operator==(const TourElement &rhs) const;
   bool operator!=(const TourElement &rhs) const;
-  double distance(const TourElement &other) const;
   const SiteVariant &active_convex_region() const;
   const std::vector<TourElement> branch() const;
   const TourElement set_exact() const;
@@ -206,15 +205,6 @@ public:
   explicit Trajectory(std::vector<Point> pointvector, bool valid = true);
   bool is_tour() const;
   bool is_path() const;
-  /**
-   * Returns a sub-trajectory. If the trajectory is a tour, begin can be
-   * after end (then modulo is used, the last point will not be repeated).
-   * @param begin The index of the first point in the sub-trajectory.
-   * @param end The index of the last point in the sub-trajectory.
-   * @return The sub-trajectory.
-   */
-  Trajectory sub(unsigned begin, unsigned end) const;
-
   double distance_geometry(const Geometry &geo) const;
   double
   distance_geometry_sequence(const Geometry &geo,

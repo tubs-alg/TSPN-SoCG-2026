@@ -197,10 +197,6 @@ bool TourElement::operator==(const TourElement &rhs) const {
 bool TourElement::operator!=(const TourElement &rhs) const {
   return !(operator==(rhs));
 }
-double TourElement::distance(const TourElement &other) const {
-  throw std::logic_error("couldnt compute tourElement distance!");
-}
-
 const SiteVariant &TourElement::active_convex_region() const {
   /* active convex region = the convex hull in most scenarios,
   except when all of the following hold true:
@@ -283,20 +279,6 @@ bool Trajectory::is_tour() const {
   return bg::equals(points[0], points[bg::num_points(points) - 1]);
 }
 bool Trajectory::is_valid() const { return _is_valid; }
-Trajectory Trajectory::sub(unsigned begin, unsigned end) const {
-  Linestring path;
-  auto n = bg::num_points(points) - 1;
-  auto i = begin;
-  if (is_tour()) {
-    for (; i > end; i = (i + 1) % n) {
-      path.push_back(points[i]);
-    }
-  }
-  for (; i <= end; ++i) {
-    path.push_back(points[i]);
-  }
-  return Trajectory{path, is_valid()};
-}
 double Trajectory::distance_site(const SiteVariant &site) const {
   return tspn::utils::distance(points, site);
 }
