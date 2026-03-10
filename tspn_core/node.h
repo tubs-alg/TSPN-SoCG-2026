@@ -11,23 +11,6 @@
 #include <optional>
 
 namespace tspn {
-/**
- * Represent an intersection in a specific trajectory.
- * The intersection is between two edges of the polygons pol1,pol2; pol3,pol4
- * which have the exact coordinates pt1,pt2; pt3,pt4
- */
-struct TrajectoryIntersection {
-public:
-  const Point pt1, pt2, pt3, pt4;
-  const Geometry pol1, pol2, pol3, pol4;
-
-  TrajectoryIntersection(const Point &pt1, const Point &pt2,
-                         const Geometry &pol1, const Geometry &pol2,
-                         const Point &pt3, const Point &pt4,
-                         const Geometry &pol3, const Geometry &pol4)
-      : pt1(pt1), pt2(pt2), pt3(pt3), pt4(pt4), pol1(pol1), pol2(pol2),
-        pol3(pol3), pol4(pol4) {}
-};
 
 class Node {
 public:
@@ -130,8 +113,6 @@ public:
   [[nodiscard]] SocSolver *get_soc() { return soc; }
 
   [[nodiscard]] int depth() const { return _depth; }
-
-  std::vector<TrajectoryIntersection> get_intersections();
 
 private:
   // Check if the children allow to improve the lower bound.
