@@ -4,6 +4,8 @@
 
 *Developed by [Sandor P. Fekete](https://www.ibr.cs.tu-bs.de/users/fekete/), [Rouven Kniep](https://www.ibr.cs.tu-bs.de/users/kniep/), [Dominik Krupke](https://www.ibr.cs.tu-bs.de/users/krupke/), and [Michael Perk](https://www.ibr.cs.tu-bs.de/users/perk/) at TU Braunschweig. Initial development with Barak Ugav at Tel Aviv University.*
 
+> **Note:** This project was forked from an earlier solver for the Close-Enough Traveling Salesman Problem (CE-TSP) by [Dominik Krupke](https://www.ibr.cs.tu-bs.de/users/krupke/) and [Barak Ugav](https://github.com/barakugav), available at [d-krupke/close-enough-tsp](https://github.com/d-krupke/close-enough-tsp). The CE-TSP solver handles circular neighborhoods; this project extends it to general polygonal neighborhoods with significant algorithmic and architectural changes.
+
 The *Traveling Salesman Problem with Neighborhoods* (TSPN) asks for the shortest tour that visits a given set of polygons (neighborhoods).
 It is a generalization of the classical [Traveling Salesman Problem](https://en.wikipedia.org/wiki/Travelling_salesman_problem)
 and the *Close-Enough Traveling Salesman Problem* (CE-TSP), which considers only circular neighborhoods.
@@ -47,7 +49,7 @@ the work of [Coutinho et al.](https://optimization-online.org/2014/02/4248/).
 - fmt >= 11.2.0
 - nlohmann_json >= 3.11
 - mpfr >= 4.2.1
-- doctest >= 2.4.11 (for C++ tests)
+- Google Test >= 1.14 (for C++ tests)
 
 **Python Dependencies (installed automatically):**
 - Core: chardet, networkx, requests, shapely ~= 2.1.2, pydantic ~= 2.12.5
@@ -57,13 +59,11 @@ the work of [Coutinho et al.](https://optimization-online.org/2014/02/4248/).
 
 1. **Install the package:**
    ```bash
-   cd tspn
    pip install .
    ```
 
 2. **Install in development mode (editable):**
    ```bash
-   cd tspn
    pip install -e .
    # or for setup.py develop workflow:
    python3 setup.py develop
@@ -71,44 +71,41 @@ the work of [Coutinho et al.](https://optimization-online.org/2014/02/4248/).
 
 3. **Test the installation:**
    ```bash
-   cd tspn
-   pytest -s tests
+   pytest -s tests/python
    ```
 
 ### C++ Development Setup
 
-For C++ development, the recommended approach uses the automated build script:
+The project uses CMake with Conan for dependency management. A `Makefile` wraps the common workflows:
 
 ```bash
-cd tspn
-./build_and_run_tests.sh
-```
+# Build and run C++ tests
+make test-cpp
 
-This script:
-- Ensures Conan dependencies are installed via pip editable install
-- Configures CMake with the Conan toolchain
-- Uses Ninja generator if available (for faster builds)
-- Builds the C++ tests
-- Runs the doctest executable
+# Run Python tests (triggers pip install)
+make test-python
+
+# Run all tests
+make test
+```
 
 **Manual C++ build:**
 ```bash
-cd tspn
-# Install conan dependencies first
-conan install . --build=missing
+# Install Conan dependencies
+conan install . --output-folder=.conan/release --build=missing
 # Configure CMake
 cmake -B build -S . -DCMAKE_TOOLCHAIN_FILE=.conan/release/conan_toolchain.cmake
 # Build
 cmake --build build
 # Run C++ tests
-cd build && ctest
+./build/tests/cpp/cpp_tests
 ```
 
 **Integration into existing C++ projects:**
-- Copy the `tspn/` subdirectory into your project
+- Copy the `tspn_core/` directory into your project
 - Install Conan dependencies using the provided `conanfile.txt`
-- Add via `add_subdirectory(tspn)` in your `CMakeLists.txt`
-- Link against the `tspn` target
+- Add via `add_subdirectory(tspn_core)` in your `CMakeLists.txt`
+- Link against the `tspn_core` target
 
 ## Quick Start
 
