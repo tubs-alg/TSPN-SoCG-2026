@@ -57,22 +57,23 @@ the work of [Coutinho et al.](https://optimization-online.org/2014/02/4248/).
 
 ### Python Installation
 
-1. **Install the package:**
-   ```bash
-   pip install .
-   ```
+**Install the package:**
+```bash
+pip install .
+```
 
-2. **Install in development mode (editable):**
-   ```bash
-   pip install -e .
-   # or for setup.py develop workflow:
-   python3 setup.py develop
-   ```
+**Install in development mode (editable):**
+```bash
+# First build the C++ extension in-place:
+python3 setup.py develop
+# Then install the Python package as editable:
+pip install -e .
+```
 
-3. **Test the installation:**
-   ```bash
-   pytest -s tests/python
-   ```
+**Run tests:**
+```bash
+pytest -s tests/python
+```
 
 ### C++ Development Setup
 
@@ -167,11 +168,13 @@ visualization comparing with and without order pruning.
 
 The `examples/` directory contains additional examples:
 
+- **`00_simple.py`**: Minimal example — solve a 5x5 grid of unit squares
 - **`01_mip.py`**: Solve TSPN using the MIP formulation with random convex polygons
 - **`02_mip_nonconvex.py`**: Solve TSPN with non-convex polygons using the MIP formulation
 - **`03_warm_start_visualization.py`**: Visualize Christofides warm start solutions
 - **`04_annotated_solution.py`**: Solving with `AnnotatedInstance` and `AnnotatedSolution`
 - **`05_order_pruning.py`**: Full order-pruning pipeline with simplification and visualization
+- **`06_lazy_constraints.py`**: Add neighborhoods incrementally via lazy constraints
 
 ## Algorithm Architecture
 

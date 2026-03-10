@@ -164,7 +164,6 @@ public:
   bool listorder(const TourElement &rhs) const;
   bool operator==(const TourElement &rhs) const;
   bool operator!=(const TourElement &rhs) const;
-  double distance(const TourElement &other) const;
   const SiteVariant &active_convex_region() const;
   const std::vector<TourElement> branch() const;
   const TourElement set_exact() const;
@@ -174,6 +173,10 @@ public:
   bool can_be_disabled() const;
   static std::atomic<size_t> enable_count;
   static std::atomic<size_t> disable_count;
+  static void reset_counters() {
+    enable_count = 0;
+    disable_count = 0;
+  }
 
 private:
   unsigned _geo_index;
@@ -206,15 +209,6 @@ public:
   explicit Trajectory(std::vector<Point> pointvector, bool valid = true);
   bool is_tour() const;
   bool is_path() const;
-  /**
-   * Returns a sub-trajectory. If the trajectory is a tour, begin can be
-   * after end (then modulo is used, the last point will not be repeated).
-   * @param begin The index of the first point in the sub-trajectory.
-   * @param end The index of the last point in the sub-trajectory.
-   * @return The sub-trajectory.
-   */
-  Trajectory sub(unsigned begin, unsigned end) const;
-
   double distance_geometry(const Geometry &geo) const;
   double
   distance_geometry_sequence(const Geometry &geo,

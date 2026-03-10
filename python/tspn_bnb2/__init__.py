@@ -29,6 +29,9 @@ from .misc import (
 from .operations import (
     simplify_annotated_instance,
     solve_annotated_instance,
+    to_native_polygon,
+    to_shapely_linestring,
+    to_shapely_polygon,
 )
 from .schemas import (
     AnnotatedInstance,
@@ -63,6 +66,9 @@ __all__ = [
     "solve_annotated_instance",
     "solve_tspn_mip",
     "to_boost",
+    "to_native_polygon",
+    "to_shapely_linestring",
+    "to_shapely_polygon",
 ]
 
 

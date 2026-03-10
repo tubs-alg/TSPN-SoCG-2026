@@ -25,20 +25,22 @@ void OrderFiltering::setup(const Instance *instance,
         overlap_total += geo.annotations.overlapping_order_geo_indices.size();
       }
     }
-    double avg_overlap =
-        annotated > 0 ? static_cast<double>(overlap_total) / annotated : 0.0;
-    std::cout << "[OrderFiltering] annotated: " << annotated
-              << " avg_overlap: " << avg_overlap;
-    if (annotated > 0) {
-      std::cout << " order_range: [" << min_order << ", " << max_order << "]";
-    }
-    if (!annotated_indices.empty()) {
-      std::cout << " indices:";
-      for (auto idx : annotated_indices) {
-        std::cout << " " << idx;
+    if (verbose_) {
+      double avg_overlap =
+          annotated > 0 ? static_cast<double>(overlap_total) / annotated : 0.0;
+      std::cout << "[OrderFiltering] annotated: " << annotated
+                << " avg_overlap: " << avg_overlap;
+      if (annotated > 0) {
+        std::cout << " order_range: [" << min_order << ", " << max_order << "]";
       }
+      if (!annotated_indices.empty()) {
+        std::cout << " indices:";
+        for (auto idx : annotated_indices) {
+          std::cout << " " << idx;
+        }
+      }
+      std::cout << std::endl;
     }
-    std::cout << std::endl;
   }
 }
 

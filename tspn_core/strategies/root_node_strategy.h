@@ -47,8 +47,13 @@ public:
  * largest cumulative distance to origin and target. */
 class LongestEdgePlusFurthestSite : public RootNodeStrategy {
 public:
+  explicit LongestEdgePlusFurthestSite(bool verbose = true)
+      : verbose_{verbose} {}
   std::shared_ptr<Node> get_root_node(Instance &instance,
                                       SocSolver &soc) override;
+
+private:
+  bool verbose_;
 };
 
 /**
@@ -58,8 +63,12 @@ public:
  */
 class LongestTriple : public RootNodeStrategy {
 public:
+  explicit LongestTriple(bool verbose = true) : verbose_{verbose} {}
   std::shared_ptr<Node> get_root_node(Instance &instance,
                                       SocSolver &soc) override;
+
+private:
+  bool verbose_;
 };
 
 /**
@@ -70,8 +79,12 @@ public:
  */
 class LongestTripleWithPoint : public RootNodeStrategy {
 public:
+  explicit LongestTripleWithPoint(bool verbose = true) : verbose_{verbose} {}
   std::shared_ptr<Node> get_root_node(Instance &instance,
                                       SocSolver &soc) override;
+
+private:
+  bool verbose_;
 };
 
 /**
@@ -82,8 +95,12 @@ public:
  */
 class LongestPointTriple : public RootNodeStrategy {
 public:
+  explicit LongestPointTriple(bool verbose = true) : verbose_{verbose} {}
   std::shared_ptr<Node> get_root_node(Instance &instance,
                                       SocSolver &soc) override;
+
+private:
+  bool verbose_;
 };
 
 /**
@@ -92,8 +109,12 @@ public:
  */
 class LongestPair : public RootNodeStrategy {
 public:
+  explicit LongestPair(bool verbose = true) : verbose_{verbose} {}
   std::shared_ptr<Node> get_root_node(Instance &instance,
                                       SocSolver &soc) override;
+
+private:
+  bool verbose_;
 };
 
 /**
@@ -102,8 +123,12 @@ public:
  */
 class RandomPair : public RootNodeStrategy {
 public:
+  explicit RandomPair(bool verbose = true) : verbose_{verbose} {}
   std::shared_ptr<Node> get_root_node(Instance &instance,
                                       SocSolver &soc) override;
+
+private:
+  bool verbose_;
 };
 
 /**
@@ -111,9 +136,12 @@ public:
  */
 class RandomRoot : public RootNodeStrategy {
 public:
+  explicit RandomRoot(bool verbose = true) : verbose_{verbose} {}
   std::shared_ptr<Node> get_root_node(Instance &instance,
                                       SocSolver &soc) override {
-    std::cout << "using RandomRoot" << std::endl;
+    if (verbose_) {
+      std::cout << "using RandomRoot" << std::endl;
+    }
     std::vector<unsigned> randseq;
     if (instance.is_path()) {
       if (size(instance) <= 1) {
@@ -151,6 +179,9 @@ public:
     }
     return std::make_shared<Node>(seq, &instance, &soc);
   }
+
+private:
+  bool verbose_;
 };
 
 /**
@@ -160,8 +191,12 @@ public:
  */
 class OrderRootStrategy : public RootNodeStrategy {
 public:
+  explicit OrderRootStrategy(bool verbose = true) : verbose_{verbose} {}
   std::shared_ptr<Node> get_root_node(Instance &instance,
                                       SocSolver &soc) override;
+
+private:
+  bool verbose_;
 };
 
 } // namespace tspn

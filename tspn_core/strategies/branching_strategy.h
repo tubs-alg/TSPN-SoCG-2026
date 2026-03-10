@@ -75,25 +75,28 @@ public:
 class PolyBranching : public BranchingStrategy {
 public:
   explicit PolyBranching(bool decomposition_branch, bool simplify,
-                         unsigned num_threads_)
+                         unsigned num_threads_, bool verbose = true)
       : decomposition_branch{decomposition_branch}, simplify{simplify},
         num_threads{(num_threads_ == 0) ? boost::thread::hardware_concurrency()
-                                        : num_threads_} {
-    std::cout << std::endl;
-    if (simplify) {
-      std::cout << "Using node simplification." << std::endl;
+                                        : num_threads_},
+        verbose_{verbose} {
+    if (verbose_) {
+      std::cout << std::endl;
+      if (simplify) {
+        std::cout << "Using node simplification." << std::endl;
+      }
+      if (decomposition_branch) {
+        std::cout << "Branching on polygon decompositions" << std::endl;
+      } else {
+        std::cout << "Indicator-modelling polygon decompositions" << std::endl;
+      }
+      std::cout << "Exploring on " << num_threads << " of "
+                << boost::thread::hardware_concurrency() << " threads";
+      if (num_threads_ == 0) {
+        std::cout << " (auto)";
+      }
+      std::cout << std::endl;
     }
-    if (decomposition_branch) {
-      std::cout << "Branching on polygon decompositions" << std::endl;
-    } else {
-      std::cout << "Indicator-modelling polygon decompositions" << std::endl;
-    }
-    std::cout << "Exploring on " << num_threads << " of "
-              << boost::thread::hardware_concurrency() << " threads";
-    if (num_threads_ == 0) {
-      std::cout << " (auto)";
-    }
-    std::cout << std::endl;
   }
 
   void setup(Instance *instance_, std::shared_ptr<Node> &root,
@@ -140,6 +143,7 @@ protected:
   bool decomposition_branch;
   bool simplify;
   unsigned num_threads;
+  bool verbose_;
   std::vector<std::unique_ptr<SequenceRule>> rules;
   unsigned num_discarded_sequences = 0;
 };
@@ -151,9 +155,11 @@ protected:
 class FarthestPoly : public PolyBranching {
 public:
   explicit FarthestPoly(bool decomposition_branch = true, bool simplify = false,
-                        unsigned num_threads = 0)
-      : PolyBranching{decomposition_branch, simplify, num_threads} {
-    std::cout << "Branching on farthest poly." << std::endl;
+                        unsigned num_threads = 0, bool verbose = true)
+      : PolyBranching{decomposition_branch, simplify, num_threads, verbose} {
+    if (verbose_) {
+      std::cout << "Branching on farthest poly." << std::endl;
+    }
   }
 
 protected:
@@ -167,9 +173,11 @@ protected:
 class RandomPoly : public PolyBranching {
 public:
   explicit RandomPoly(bool decomposition_branch = true, bool simplify = false,
-                      unsigned num_threads = 0)
-      : PolyBranching{decomposition_branch, simplify, num_threads} {
-    std::cout << "Branching on random poly" << std::endl;
+                      unsigned num_threads = 0, bool verbose = true)
+      : PolyBranching{decomposition_branch, simplify, num_threads, verbose} {
+    if (verbose_) {
+      std::cout << "Branching on random poly" << std::endl;
+    }
   }
 
 protected:

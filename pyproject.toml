@@ -84,7 +84,9 @@ ignore = [
 [tool.ruff.lint.per-file-ignores]
 "examples/*" = [
     "D100",     # module docstrings not needed for example scripts
+    "D102",     # method docstrings not needed for example scripts
     "D103",     # function docstrings not needed for example scripts
+    "D107",     # __init__ docstrings not needed for example scripts
     "ANN",      # type annotations not needed for example scripts
     "E402",     # late imports — fine for linear example scripts
     "F403",     # star imports — fine for examples

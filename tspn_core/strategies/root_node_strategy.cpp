@@ -69,12 +69,9 @@ std::shared_ptr<Node> path_furtest_site_root(Instance &instance,
 
 std::shared_ptr<Node>
 LongestEdgePlusFurthestSite::get_root_node(Instance &instance, SocSolver &soc) {
-  /**
-   * Compute a root note consisting of three sites by first finding
-   * the most distanced pair and then adding a third site that has the
-   * longest sum of distance to the two end points.
-   */
-  std::cout << "using LongestEdgePlusFurthestSite Root" << std::endl;
+  if (verbose_) {
+    std::cout << "using LongestEdgePlusFurthestSite Root" << std::endl;
+  }
   if (instance.is_path()) {
     return path_furtest_site_root(instance, soc);
   } else {
@@ -89,8 +86,10 @@ LongestEdgePlusFurthestSite::get_root_node(Instance &instance, SocSolver &soc) {
       auto furthest = most_distanced_site(instance, instance[max_pair.first],
                                           instance[max_pair.second]);
 
-      std::cout << "  picked pair (" << max_pair.first << ", "
-                << max_pair.second << ") furthest " << furthest << std::endl;
+      if (verbose_) {
+        std::cout << "  picked pair (" << max_pair.first << ", "
+                  << max_pair.second << ") furthest " << furthest << std::endl;
+      }
       assert(max_pair.first < instance.size());
       assert(max_pair.second < instance.size());
       assert(furthest < instance.size() && furthest >= 0);
@@ -105,12 +104,9 @@ LongestEdgePlusFurthestSite::get_root_node(Instance &instance, SocSolver &soc) {
 
 std::shared_ptr<Node> LongestTriple::get_root_node(Instance &instance,
                                                    SocSolver &soc) {
-  /**
-   * The longest triple strategy selects the three sites with the longest
-   * cumulative distances between them. In path mode, it selects the site with
-   * largest cumulative distance to origin and target.
-   */
-  std::cout << "using LongestTriple Root" << std::endl;
+  if (verbose_) {
+    std::cout << "using LongestTriple Root" << std::endl;
+  }
   if (instance.is_path()) {
     return path_furtest_site_root(instance, soc);
   } else if (instance.size() <= 3) { // trivial case
@@ -148,10 +144,10 @@ std::shared_ptr<Node> LongestTriple::get_root_node(Instance &instance,
 
 std::shared_ptr<Node> LongestTripleWithPoint::get_root_node(Instance &instance,
                                                             SocSolver &soc) {
-  // for convenience, the point shall be the very first site in the sequence.
-  std::cout << "using LongestTripleWithPoint Root" << std::endl;
+  if (verbose_) {
+    std::cout << "using LongestTripleWithPoint Root" << std::endl;
+  }
 
-  // find all points
   std::vector<unsigned> point_positions;
   for (unsigned i = 0; i < instance.size(); i++) {
     if (std::holds_alternative<Point>(instance[i].definition())) {
@@ -164,7 +160,6 @@ std::shared_ptr<Node> LongestTripleWithPoint::get_root_node(Instance &instance,
     throw std::logic_error("cannot build LongestTripleWithPoint root node for "
                            "instance without at least one point.");
   } else if (instance.size() <= 3) { // trivial case
-    // may be one after end, but we caught that with none_of already
     std::vector<TourElement> seq;
     seq.push_back(TourElement(instance, point_positions[0]));
     for (unsigned i = 0; i < instance.size(); i++) {
@@ -202,14 +197,14 @@ std::shared_ptr<Node> LongestTripleWithPoint::get_root_node(Instance &instance,
                                  TourElement(instance, best_sites[2])},
         &instance, &soc);
   }
-} // namespace tspn
+}
 
 std::shared_ptr<Node> LongestPointTriple::get_root_node(Instance &instance,
                                                         SocSolver &soc) {
-  // for convenience, the point shall be the very first site in the sequence.
-  std::cout << "using LongestPointTriple Root" << std::endl;
+  if (verbose_) {
+    std::cout << "using LongestPointTriple Root" << std::endl;
+  }
 
-  // find all points, will be practial through everything
   std::vector<unsigned> point_positions;
   std::vector<unsigned> other_positions;
   for (unsigned i = 0; i < instance.size(); i++) {
@@ -225,7 +220,6 @@ std::shared_ptr<Node> LongestPointTriple::get_root_node(Instance &instance,
     throw std::logic_error("cannot build LongestPointTriple root node for "
                            "instance without at least one point.");
   } else if (instance.size() <= 3) { // trivial case
-    // may be one after end, but we caught that with none_of already
     std::vector<TourElement> seq;
     seq.push_back(TourElement(instance, point_positions[0]));
     for (unsigned i = 0; i < instance.size(); i++) {
@@ -299,16 +293,19 @@ std::shared_ptr<Node> LongestPointTriple::get_root_node(Instance &instance,
 
 std::shared_ptr<Node> LongestPair::get_root_node(Instance &instance,
                                                  SocSolver &soc) {
-  std::cout << "using LongestPair Root" << std::endl;
+  if (verbose_) {
+    std::cout << "using LongestPair Root" << std::endl;
+  }
   if (instance.is_path()) {
-    // path requires origin/target at ends
     std::vector<TourElement> seq;
     seq.emplace_back(instance, 0);
     if (instance.size() >= 2) {
       seq.emplace_back(instance, 1);
     }
-    std::cout << "  path root -> [" << 0 << ", "
-              << (instance.size() >= 2 ? 1 : 0) << "]" << std::endl;
+    if (verbose_) {
+      std::cout << "  path root -> [" << 0 << ", "
+                << (instance.size() >= 2 ? 1 : 0) << "]" << std::endl;
+    }
     return std::make_shared<Node>(seq, &instance, &soc);
   }
   if (instance.size() <= 2) {
@@ -316,13 +313,17 @@ std::shared_ptr<Node> LongestPair::get_root_node(Instance &instance,
     for (unsigned i = 0; i < instance.size(); ++i) {
       seq.emplace_back(instance, i);
     }
-    std::cout << "  tour root trivial size <=2, seq size " << seq.size()
-              << std::endl;
+    if (verbose_) {
+      std::cout << "  tour root trivial size <=2, seq size " << seq.size()
+                << std::endl;
+    }
     return std::make_shared<Node>(seq, &instance, &soc);
   }
   auto max_pair = find_max_pair(instance);
-  std::cout << "  tour root max pair (" << max_pair.first << ", "
-            << max_pair.second << ")" << std::endl;
+  if (verbose_) {
+    std::cout << "  tour root max pair (" << max_pair.first << ", "
+              << max_pair.second << ")" << std::endl;
+  }
   return std::make_shared<Node>(
       std::vector<TourElement>{TourElement(instance, max_pair.first),
                                TourElement(instance, max_pair.second)},
@@ -331,15 +332,19 @@ std::shared_ptr<Node> LongestPair::get_root_node(Instance &instance,
 
 std::shared_ptr<Node> RandomPair::get_root_node(Instance &instance,
                                                 SocSolver &soc) {
-  std::cout << "using RandomPair Root" << std::endl;
+  if (verbose_) {
+    std::cout << "using RandomPair Root" << std::endl;
+  }
   if (instance.is_path()) {
     std::vector<TourElement> seq;
     seq.emplace_back(instance, 0);
     if (instance.size() >= 2) {
       seq.emplace_back(instance, 1);
     }
-    std::cout << "  path root -> [" << 0 << ", "
-              << (instance.size() >= 2 ? 1 : 0) << "]" << std::endl;
+    if (verbose_) {
+      std::cout << "  path root -> [" << 0 << ", "
+                << (instance.size() >= 2 ? 1 : 0) << "]" << std::endl;
+    }
     return std::make_shared<Node>(seq, &instance, &soc);
   }
   if (instance.size() <= 2) {
@@ -347,8 +352,10 @@ std::shared_ptr<Node> RandomPair::get_root_node(Instance &instance,
     for (unsigned i = 0; i < instance.size(); ++i) {
       seq.emplace_back(instance, i);
     }
-    std::cout << "  tour root trivial size <=2, seq size " << seq.size()
-              << std::endl;
+    if (verbose_) {
+      std::cout << "  tour root trivial size <=2, seq size " << seq.size()
+                << std::endl;
+    }
     return std::make_shared<Node>(seq, &instance, &soc);
   }
   std::vector<unsigned> indices(instance.size());
@@ -357,15 +364,18 @@ std::shared_ptr<Node> RandomPair::get_root_node(Instance &instance,
                std::mt19937{std::random_device{}()});
   std::vector<TourElement> seq{TourElement(instance, indices[0]),
                                TourElement(instance, indices[1])};
-  std::cout << "  tour root random pair (" << indices[0] << ", " << indices[1]
-            << ")" << std::endl;
+  if (verbose_) {
+    std::cout << "  tour root random pair (" << indices[0] << ", " << indices[1]
+              << ")" << std::endl;
+  }
   return std::make_shared<Node>(seq, &instance, &soc);
 }
 
 std::shared_ptr<Node> OrderRootStrategy::get_root_node(Instance &instance,
                                                        SocSolver &soc) {
-  std::cout << "using OrderRootStrategy Root" << std::endl;
-  // For paths, keep origin/target in place.
+  if (verbose_) {
+    std::cout << "using OrderRootStrategy Root" << std::endl;
+  }
   std::vector<TourElement> seq;
   std::vector<std::pair<unsigned, unsigned>> annotated; // (order, geo_idx)
 
@@ -398,14 +408,16 @@ std::shared_ptr<Node> OrderRootStrategy::get_root_node(Instance &instance,
     excluded.insert(overlaps.begin(), overlaps.end());
   }
 
-  std::cout << "  annotated count: " << annotated.size()
-            << " selected: " << selected.size() << std::endl;
-  if (!selected.empty()) {
-    std::cout << "  selected indices:";
-    for (auto idx : selected) {
-      std::cout << " " << idx;
+  if (verbose_) {
+    std::cout << "  annotated count: " << annotated.size()
+              << " selected: " << selected.size() << std::endl;
+    if (!selected.empty()) {
+      std::cout << "  selected indices:";
+      for (auto idx : selected) {
+        std::cout << " " << idx;
+      }
+      std::cout << std::endl;
     }
-    std::cout << std::endl;
   }
 
   if (instance.is_path()) {
@@ -424,7 +436,9 @@ std::shared_ptr<Node> OrderRootStrategy::get_root_node(Instance &instance,
     if (seq.empty()) {
       throw std::logic_error("Cannot build path root without any sites.");
     }
-    std::cout << "  path seq size " << seq.size() << std::endl;
+    if (verbose_) {
+      std::cout << "  path seq size " << seq.size() << std::endl;
+    }
     return std::make_shared<Node>(seq, &instance, &soc);
   }
 
@@ -435,23 +449,32 @@ std::shared_ptr<Node> OrderRootStrategy::get_root_node(Instance &instance,
     if (instance.size() > 1) {
       seq.emplace_back(instance, max_pair.second);
     }
-    std::cout << "  fallback max pair ("
-              << (seq.empty() ? 0 : seq[0].geo_index()) << ", "
-              << (seq.size() > 1 ? seq[1].geo_index() : 0) << ")" << std::endl;
+    if (verbose_) {
+      std::cout << "  fallback max pair ("
+                << (seq.empty() ? 0 : seq[0].geo_index()) << ", "
+                << (seq.size() > 1 ? seq[1].geo_index() : 0) << ")"
+                << std::endl;
+    }
   } else {
     for (auto idx : selected) {
       seq.emplace_back(instance, idx);
     }
-    std::cout << "  tour seq size " << seq.size() << std::endl;
+    if (verbose_) {
+      std::cout << "  tour seq size " << seq.size() << std::endl;
+    }
   }
   auto node = std::make_unique<Node>(seq, &instance, &soc);
-  std::cout << "Original root node has size " << seq.size() << std::endl;
-  auto simplified_sequence = node->get_spanning_sequence();
-  std::cout << "  simplified sequence:";
-  for (auto &entry : simplified_sequence) {
-    std::cout << " " << entry.geo_index();
+  if (verbose_) {
+    std::cout << "Original root node has size " << seq.size() << std::endl;
   }
-  std::cout << std::endl;
+  auto simplified_sequence = node->get_spanning_sequence();
+  if (verbose_) {
+    std::cout << "  simplified sequence:";
+    for (auto &entry : simplified_sequence) {
+      std::cout << " " << entry.geo_index();
+    }
+    std::cout << std::endl;
+  }
 
   return std::make_shared<Node>(simplified_sequence, &instance, &soc);
 }

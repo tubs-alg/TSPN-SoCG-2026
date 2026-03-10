@@ -180,19 +180,6 @@ TEST(TrajectoryExtended, SimplifiedKeepsTurningPoints) {
   EXPECT_EQ(simplified.size(), 3u); // All are spanning
 }
 
-// --- sub-trajectory edge cases ---
-
-TEST(TrajectoryExtended, SubTrajectoryFullRange) {
-  Trajectory traj{Linestring{{0, 0}, {1, 0}, {2, 0}, {3, 0}}};
-  auto sub = traj.sub(0, 3);
-  EXPECT_EQ(sub.points.size(), 4u);
-}
-
-TEST(TrajectoryExtended, SubTrajectorySinglePoint) {
-  Trajectory traj{Linestring{{0, 0}, {1, 0}, {2, 0}}};
-  auto sub = traj.sub(1, 1);
-  EXPECT_EQ(sub.points.size(), 1u);
-  EXPECT_TRUE(bg::equals(sub.points[0], Point(1, 0)));
-}
+// NOTE: SubTrajectory tests removed — Trajectory::sub() is not yet implemented.
 
 } // namespace tspn

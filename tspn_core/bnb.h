@@ -29,8 +29,7 @@ public:
         branching_strategy{branching_strategy} {
     branching_strategy.setup(instance, root, &solution_pool);
     search_strategy.init(root);
-    TourElement::disable_count = 0;
-    TourElement::enable_count = 0;
+    TourElement::reset_counters();
   }
 
   void add_node_callback(std::unique_ptr<B2BNodeCallback> &&callback) {
