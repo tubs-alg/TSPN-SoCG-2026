@@ -26,7 +26,7 @@ namespace tspn {
  */
 class OrderFiltering : public SequenceRule {
 public:
-  OrderFiltering() = default;
+  explicit OrderFiltering(bool verbose = true) : verbose_{verbose} {}
 
   /**
    * Setup the rule with instance information.
@@ -53,6 +53,7 @@ public:
   ~OrderFiltering() override = default;
 
 private:
+  bool verbose_;
   const Instance *instance_ = nullptr;
 
   /**

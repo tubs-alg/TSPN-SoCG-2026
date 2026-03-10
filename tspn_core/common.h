@@ -173,6 +173,10 @@ public:
   bool can_be_disabled() const;
   static std::atomic<size_t> enable_count;
   static std::atomic<size_t> disable_count;
+  static void reset_counters() {
+    enable_count = 0;
+    disable_count = 0;
+  }
 
 private:
   unsigned _geo_index;

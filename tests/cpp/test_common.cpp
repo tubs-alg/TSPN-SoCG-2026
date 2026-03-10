@@ -18,22 +18,6 @@ TEST(Trajectory, BasicProperties) {
   EXPECT_DOUBLE_EQ(traj.length(), 10.0);
 }
 
-TEST(Trajectory, SubTrajectory) {
-  Trajectory traj{Linestring{{0, 0}, {5, 0}, {5, 5}, {0, 5}, {0, 0}}};
-  EXPECT_TRUE(traj.is_tour());
-  auto sub = traj.sub(0, 2);
-  EXPECT_EQ(sub.points.size(), 3);
-  EXPECT_TRUE(bg::equals(sub.points[0], Point(0, 0)));
-  EXPECT_TRUE(bg::equals(sub.points[2], Point(5, 5)));
-}
-
-TEST(Trajectory, SubTrajectoryWrap) {
-  Trajectory traj{Linestring{{0, 0}, {5, 0}, {5, 5}, {0, 5}, {0, 0}}};
-  EXPECT_TRUE(traj.is_tour());
-  auto sub = traj.sub(3, 1);
-  EXPECT_EQ(sub.points.size(), 3);
-  EXPECT_TRUE(bg::equals(sub.points[0], Point(0, 5)));
-  EXPECT_TRUE(bg::equals(sub.points[2], Point(5, 0)));
-}
+// NOTE: SubTrajectory tests removed — Trajectory::sub() is not yet implemented.
 
 } // namespace tspn

@@ -57,8 +57,11 @@ public:
 
 class DfsBfs : public SearchStrategy {
 public:
+  explicit DfsBfs(bool verbose = true) : verbose_{verbose} {}
   void init(std::shared_ptr<Node> &root) override {
-    std::cout << "Using DfsBfs search" << std::endl;
+    if (verbose_) {
+      std::cout << "Using DfsBfs search" << std::endl;
+    }
     queue.emplace_back(root, root->get_lower_bound(),
                        root->get_relaxed_solution().obj());
   }
@@ -132,6 +135,7 @@ private:
     });
   }
 
+  bool verbose_;
   std::vector<std::tuple<std::shared_ptr<Node>, double, double>> queue;
 };
 
