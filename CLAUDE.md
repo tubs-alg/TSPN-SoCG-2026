@@ -103,7 +103,7 @@ The Branch and Bound algorithm is highly modular with three main customizable st
 
 - Python interface defined in `python/tspn_bnb2/core/_tspn_bindings.cpp` using pybind11
 - Python modules in `python/tspn_bnb2/` with utilities for IO (`misc/io.py`) and plotting (`misc/plotting.py`)
-- Examples in `pyexamples/` demonstrate Voronoi sampling and dynamic programming approaches
+- Examples in `examples/` demonstrate Voronoi sampling and dynamic programming approaches
 
 ### Project Layout
 
@@ -120,7 +120,7 @@ tspn/
 │   ├── cpp/               # C++ tests (Google Test)
 │   ├── python/            # Python tests (pytest)
 │   └── instances/         # Shared test data
-├── pyexamples/            # Python usage examples
+├── examples/            # Python usage examples
 ├── instances/             # Test instances (OSM-based)
 ├── cmake/                 # CMake utilities and Conan recipes
 └── notebooks/             # Jupyter notebooks for experimentation

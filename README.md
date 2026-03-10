@@ -114,7 +114,7 @@ cd build && ctest
 
 The following example shows the full recommended workflow: create an instance from
 Shapely polygons, simplify geometries, add order annotations for pruning, and
-solve with Branch and Bound. This mirrors `pyexamples/05_order_pruning.py`.
+solve with Branch and Bound. This mirrors `examples/05_order_pruning.py`.
 
 ```python
 from shapely.geometry import Point as ShapelyPoint
@@ -163,12 +163,12 @@ print(f"Optimal: {solution.is_optimal}")
 print(f"Statistics: {solution.statistics}")
 ```
 
-See `pyexamples/05_order_pruning.py` for the full version with side-by-side
+See `examples/05_order_pruning.py` for the full version with side-by-side
 visualization comparing with and without order pruning.
 
 ### More Examples
 
-The `pyexamples/` directory contains additional examples:
+The `examples/` directory contains additional examples:
 
 - **`01_mip.py`**: Solve TSPN using the MIP formulation with random convex polygons
 - **`02_mip_nonconvex.py`**: Solve TSPN with non-convex polygons using the MIP formulation
