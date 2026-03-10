@@ -4,11 +4,13 @@ import warnings
 from typing import Any
 
 from shapely.geometry import LineString
+from shapely.geometry import Polygon as ShapelyPolygon
 from shapely.wkt import loads as load_wkt
 
 from .core._tspn_bindings import (
     GeometryAnnotations,
     Instance,
+    Trajectory,
     branch_and_bound,
     set_int_parameter,
 )
@@ -17,6 +19,25 @@ from .core._tspn_bindings import (
 )
 from .misc.io import convert_number
 from .schemas import AnnotatedInstance, AnnotatedSolution
+
+
+def to_native_polygon(shapely_poly: ShapelyPolygon) -> TspnPolygon:
+    """Convert a Shapely Polygon to a native TSPN Polygon."""
+    return TspnPolygon.from_wkt(shapely_poly.wkt)
+
+
+def to_shapely_polygon(native_poly: TspnPolygon) -> ShapelyPolygon:
+    """Convert a native TSPN Polygon to a Shapely Polygon."""
+    result = load_wkt(str(native_poly))
+    if not isinstance(result, ShapelyPolygon):
+        msg = f"Expected Polygon WKT, got {type(result)}"
+        raise TypeError(msg)
+    return result
+
+
+def to_shapely_linestring(trajectory: Trajectory) -> LineString:
+    """Convert a native TSPN Trajectory to a Shapely LineString."""
+    return LineString([(p.x, p.y) for p in trajectory])
 
 
 def _argument_sanity_check(
@@ -56,7 +77,7 @@ def _argument_sanity_check(
 def convert_to_tspn_instance(instance: AnnotatedInstance) -> Instance:
     """Convert an AnnotatedInstance to a C++ TSPN Instance."""
     # Convert Shapely polygons to TSPN polygons
-    tspn_polygons = [TspnPolygon.from_wkt(poly.wkt) for poly in instance.polygons]
+    tspn_polygons = [to_native_polygon(poly) for poly in instance.polygons]
 
     # Create TSPN instance
     tspn_instance = Instance(tspn_polygons, False)
@@ -190,8 +211,7 @@ def solve_annotated_instance(
         )
     # Extract trajectory and convert to Shapely LineString
     trajectory_points = ub.get_trajectory()
-    coords = [(p.x, p.y) for p in trajectory_points]
-    trajectory = LineString(coords)
+    trajectory = to_shapely_linestring(trajectory_points)
 
     # Calculate bounds and gap
 
@@ -247,7 +267,7 @@ def simplify_annotated_instance(
             raise ValueError("Input instance has invalid polygons")
 
     # Convert Shapely polygons to TSPN polygons
-    tspn_polygons = [_bindings.Polygon.from_wkt(poly.wkt) for poly in instance.polygons]
+    tspn_polygons = [to_native_polygon(poly) for poly in instance.polygons]
 
     # Apply simplifications in order, with detailed error reporting
     # Note: Each function returns a new list
@@ -284,12 +304,7 @@ def simplify_annotated_instance(
         raise RuntimeError(msg) from e
 
     # Convert back to Shapely polygons
-    simplified_polygons = []
-    for tspn_poly in tspn_polygons:
-        # Convert TSPN polygon to WKT then to Shapely
-        wkt_str = str(tspn_poly)  # TSPN polygons have __str__ that outputs WKT
-        shapely_poly = load_wkt(wkt_str)
-        simplified_polygons.append(shapely_poly)
+    simplified_polygons = [to_shapely_polygon(p) for p in tspn_polygons]
 
     return AnnotatedInstance(
         polygons=simplified_polygons,

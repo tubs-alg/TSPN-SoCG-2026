@@ -168,11 +168,13 @@ visualization comparing with and without order pruning.
 
 The `examples/` directory contains additional examples:
 
+- **`00_simple.py`**: Minimal example — solve a 5x5 grid of unit squares
 - **`01_mip.py`**: Solve TSPN using the MIP formulation with random convex polygons
 - **`02_mip_nonconvex.py`**: Solve TSPN with non-convex polygons using the MIP formulation
 - **`03_warm_start_visualization.py`**: Visualize Christofides warm start solutions
 - **`04_annotated_solution.py`**: Solving with `AnnotatedInstance` and `AnnotatedSolution`
 - **`05_order_pruning.py`**: Full order-pruning pipeline with simplification and visualization
+- **`06_lazy_constraints.py`**: Add neighborhoods incrementally via lazy constraints
 
 ## Algorithm Architecture
 

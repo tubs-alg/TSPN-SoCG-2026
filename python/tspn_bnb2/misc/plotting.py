@@ -1,7 +1,9 @@
 """Collection of plotting functions."""
 
+from __future__ import annotations
+
 from collections.abc import Callable
-from typing import Any
+from typing import TYPE_CHECKING, Any
 
 import matplotlib.colors as mpc
 import matplotlib.pyplot as plt
@@ -9,7 +11,7 @@ from matplotlib.patches import Circle as CirclePatch
 from matplotlib.patches import PathPatch
 from matplotlib.path import Path
 from shapely.geometry import Polygon as ShapelyPolygon
-from shapely.plotting import plot_polygon
+from shapely.plotting import plot_line, plot_polygon
 from shapely.wkt import loads as load_wkt
 
 from tspn_bnb2.core._tspn_bindings import (
@@ -21,6 +23,9 @@ from tspn_bnb2.core._tspn_bindings import (
     Solution,
     Trajectory,
 )
+
+if TYPE_CHECKING:
+    from tspn_bnb2.schemas import AnnotatedInstance, AnnotatedSolution
 
 
 def patchify(polys: list[Polygon], **kwargs: Any) -> PathPatch:
@@ -173,3 +178,47 @@ def plot_trajectory(ax: plt.Axes, instance: Instance, trajectory: Trajectory | N
             lw=1,
         )
     ax.set_aspect("equal", "datalim")
+
+
+def plot_annotated_solution(
+    ax: plt.Axes,
+    instance: AnnotatedInstance,
+    solution: AnnotatedSolution | None = None,
+    *,
+    polygon_color: str = "lightblue",
+    edge_color: str = "blue",
+    trajectory_color: str = "black",
+    point_color: str = "red",
+) -> None:
+    """Plot an AnnotatedInstance with an optional AnnotatedSolution overlay.
+
+    Args:
+        ax: Matplotlib axes to plot on.
+        instance: The annotated instance (Shapely polygons).
+        solution: Optional annotated solution (Shapely LineString trajectory).
+        polygon_color: Fill color for polygons.
+        edge_color: Edge color for polygons.
+        trajectory_color: Color of the tour trajectory.
+        point_color: Color of the visiting points on the trajectory.
+
+    """
+    for poly in instance.polygons:
+        plot_polygon(poly, ax=ax, add_points=False, color=polygon_color, alpha=0.4)
+        plot_polygon(poly, ax=ax, add_points=False, facecolor="none", edgecolor=edge_color)
+
+    if solution is not None:
+        plot_line(solution.trajectory, ax=ax, color=trajectory_color, linewidth=1.5)
+        coords = list(solution.trajectory.coords)
+        # Exclude the closing point for tours
+        if len(coords) > 1 and coords[0] == coords[-1]:
+            coords = coords[:-1]
+        ax.scatter(
+            [c[0] for c in coords],
+            [c[1] for c in coords],
+            color=point_color,
+            s=30,
+            zorder=5,
+        )
+
+    ax.set_aspect("equal")
+    ax.autoscale_view()

@@ -4,6 +4,7 @@ from .io import InstanceDb, parse_tour, read_instance, write_instance
 from .paper_style import FIGWIDTH, FULLWIDEFIGURE, HALFWIDEFIGURE, HIGHFIGURE, init_params
 from .plotting import (
     autocolor,
+    plot_annotated_solution,
     plot_instance,
     plot_sites,
     plot_solution,
@@ -19,6 +20,7 @@ __all__ = [
     "autocolor",
     "init_params",
     "parse_tour",
+    "plot_annotated_solution",
     "plot_instance",
     "plot_sites",
     "plot_solution",
