@@ -57,22 +57,23 @@ the work of [Coutinho et al.](https://optimization-online.org/2014/02/4248/).
 
 ### Python Installation
 
-1. **Install the package:**
-   ```bash
-   pip install .
-   ```
+**Install the package:**
+```bash
+pip install .
+```
 
-2. **Install in development mode (editable):**
-   ```bash
-   pip install -e .
-   # or for setup.py develop workflow:
-   python3 setup.py develop
-   ```
+**Install in development mode (editable):**
+```bash
+# First build the C++ extension in-place:
+python3 setup.py develop
+# Then install the Python package as editable:
+pip install -e .
+```
 
-3. **Test the installation:**
-   ```bash
-   pytest -s tests/python
-   ```
+**Run tests:**
+```bash
+pytest -s tests/python
+```
 
 ### C++ Development Setup
 
