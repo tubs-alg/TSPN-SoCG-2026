@@ -45,7 +45,7 @@ setup(  # https://scikit-build.readthedocs.io/en/latest/usage.html#setup-options
         "requests>=2.25.1",
         "shapely~=2.1.2",
         "pydantic~=2.12.5",
-        "gurobipy~=12.0.1"
+        "gurobipy~=12.0.1",
     ],
     # ~~~~~~~~~~~ CRITICAL CMAKE SETUP ~~~~~~~~~~~~~~~~~~~~~
     # Especially LTS systems often have very old CMake version (or none at all).
