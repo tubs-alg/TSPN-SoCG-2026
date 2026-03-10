@@ -4,8 +4,8 @@
 
 #include <gtest/gtest.h>
 
-#include "tspn/details/pre_simplify.h"
-#include "tspn/utils/geometry.h"
+#include "tspn_core/details/pre_simplify.h"
+#include "tspn_core/utils/geometry.h"
 
 namespace tspn::details {
 

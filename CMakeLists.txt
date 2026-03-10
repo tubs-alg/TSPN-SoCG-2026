@@ -64,7 +64,7 @@ endif()
 # C++-Library ~~~~~~~~~~~~~~~~~~~~~~~~~
 # This part defines the actual C++-library that may be used as a simple
 # C++-library. The Python-interface to this library is defined separately.
-add_subdirectory(src)
+add_subdirectory(tspn_core)
 
 # ~~~
 # TESTS OF THE PUBLIC INTERFACE ~~~~~~~~~~~~~~
@@ -79,4 +79,4 @@ endif()
 # Python Interface ~~~~~~~~~~~~~~~~~~~~
 # The Python-bindings are compiled as separate target to allow the independent
 # usage of the C++-library.
-add_subdirectory(pysrc) # defined in a separate CMakeLists.txt
+add_subdirectory(python) # defined in a separate CMakeLists.txt

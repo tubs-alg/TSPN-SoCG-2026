@@ -2,10 +2,10 @@
 
 #include <gtest/gtest.h>
 
-#include "tspn/common.h"
-#include "tspn/node.h"
-#include "tspn/soc.h"
-#include "tspn/strategies/root_node_strategy.h"
+#include "tspn_core/common.h"
+#include "tspn_core/node.h"
+#include "tspn_core/soc.h"
+#include "tspn_core/strategies/root_node_strategy.h"
 
 TEST(OrderRootStrategy, PicksNonOverlappingAnnotatedSites) {
   std::vector<tspn::SiteVariant> sites;

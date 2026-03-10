@@ -7,10 +7,10 @@
 
 #include <gtest/gtest.h>
 
-#include "tspn/bnb.h"
-#include "tspn/details/convex_partition.h"
-#include "tspn/details/pre_simplify.h"
-#include "tspn/utils/distance.h"
+#include "tspn_core/bnb.h"
+#include "tspn_core/details/convex_partition.h"
+#include "tspn_core/details/pre_simplify.h"
+#include "tspn_core/utils/distance.h"
 
 namespace tspn {
 

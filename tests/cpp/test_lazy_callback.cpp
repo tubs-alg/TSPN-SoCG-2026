@@ -2,8 +2,8 @@
 
 #include <gtest/gtest.h>
 
-#include "tspn/bnb.h"
-#include "tspn/callbacks.h"
+#include "tspn_core/bnb.h"
+#include "tspn_core/callbacks.h"
 #include <boost/geometry.hpp>
 
 namespace bg = boost::geometry;

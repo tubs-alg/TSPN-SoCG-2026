@@ -2,8 +2,8 @@
 
 #include <gtest/gtest.h>
 
-#include "tspn/soc.h"
-#include "tspn/utils/drawer.h"
+#include "tspn_core/soc.h"
+#include "tspn_core/utils/drawer.h"
 
 namespace tspn {
 

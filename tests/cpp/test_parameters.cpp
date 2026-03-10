@@ -5,7 +5,7 @@
 
 #include <gtest/gtest.h>
 
-#include "tspn/common.h"
+#include "tspn_core/common.h"
 
 namespace tspn::constants {
 

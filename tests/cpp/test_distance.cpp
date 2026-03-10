@@ -5,7 +5,7 @@
 
 #include <gtest/gtest.h>
 
-#include "tspn/utils/distance.h"
+#include "tspn_core/utils/distance.h"
 
 namespace tspn::utils {
 

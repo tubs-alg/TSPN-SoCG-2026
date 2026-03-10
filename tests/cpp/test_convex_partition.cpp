@@ -6,8 +6,8 @@
 
 #include <gtest/gtest.h>
 
-#include "tspn/details/convex_partition.h"
-#include "tspn/utils/geometry.h"
+#include "tspn_core/details/convex_partition.h"
+#include "tspn_core/utils/geometry.h"
 #include <boost/geometry/algorithms/is_convex.hpp>
 
 namespace tspn::details {

@@ -2,7 +2,7 @@
 
 #include <gtest/gtest.h>
 
-#include "tspn/relaxed_solution.h"
+#include "tspn_core/relaxed_solution.h"
 
 namespace tspn {
 

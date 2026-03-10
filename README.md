@@ -178,7 +178,7 @@ The `pyexamples/` directory contains additional examples:
 
 ## Algorithm Architecture
 
-The Branch and Bound algorithm is highly modular and can be customized by replacing strategies. The main entry point is `include/tspn/bnb.h`.
+The Branch and Bound algorithm is highly modular and can be customized by replacing strategies. The main entry point is `tspn_core/bnb.h`.
 
 ### Three Core Strategies
 
@@ -187,7 +187,7 @@ From Python, these are selected by name via `solve_annotated_instance()` or `bra
 
 #### 1. Root Node Strategy
 
-**Location:** `include/tspn/strategies/root_node_strategy.h`
+**Location:** `tspn_core/strategies/root_node_strategy.h`
 
 Determines the initial relaxed solution that serves as the starting point for the branch and bound tree.
 
@@ -198,14 +198,14 @@ Determines the initial relaxed solution that serves as the starting point for th
 
 #### 2. Branching Strategy
 
-**Location:** `include/tspn/strategies/branching_strategy.h`
+**Location:** `tspn_core/strategies/branching_strategy.h`
 
 Decides how to split the solution space at each node. Unlike classical MIP solvers that branch on fractional variables, this solver branches by selecting which neighborhood to add and where to insert it in the sequence.
 
 **Key Aspects:**
 - **Neighborhood Selection**: Typically selects the farthest uncovered neighborhood to maximize lower bound improvement
 - **Insertion Positions**: Considers all valid positions in the sequence
-- **Pruning Rules**: Custom rules (`include/tspn/strategies/rule.h`) can eliminate suboptimal branches without computing trajectories
+- **Pruning Rules**: Custom rules (`tspn_core/strategies/rule.h`) can eliminate suboptimal branches without computing trajectories
 - **Simplification**: Removes non-spanning neighborhoods from sequences to reduce branching factor
 - **Parallelization**: Child nodes are computed in parallel for better CPU utilization
 
@@ -218,7 +218,7 @@ Decides how to split the solution space at each node. Unlike classical MIP solve
 
 #### 3. Search Strategy
 
-**Location:** `include/tspn/strategies/search_strategy.h`
+**Location:** `tspn_core/strategies/search_strategy.h`
 
 Controls the order in which nodes in the branch and bound tree are explored.
 
@@ -230,7 +230,7 @@ Controls the order in which nodes in the branch and bound tree are explored.
 
 ### Callbacks
 
-**Location:** `include/tspn/callbacks.h`
+**Location:** `tspn_core/callbacks.h`
 
 Callbacks provide extensibility points for customizing the search process at runtime.
 

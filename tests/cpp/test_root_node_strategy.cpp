@@ -2,7 +2,7 @@
 
 #include <gtest/gtest.h>
 
-#include "tspn/strategies/root_node_strategy.h"
+#include "tspn_core/strategies/root_node_strategy.h"
 
 namespace tspn {
 

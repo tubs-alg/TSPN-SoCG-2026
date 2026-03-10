@@ -35,8 +35,8 @@ setup(  # https://scikit-build.readthedocs.io/en/latest/usage.html#setup-options
     # ~~~~~~~~~~~~ CRITICAL PYTHON SETUP ~~~~~~~~~~~~~~~~~~~
     # This project structures defines the python packages in a subfolder.
     # Thus, we have to collect this subfolder and define it as root.
-    packages=find_packages("pysrc"),  # Include all packages in `./python`.
-    package_dir={"": "pysrc"},  # The root for our python package is in `./python`.
+    packages=find_packages("python"),  # Include all packages in `./python`.
+    package_dir={"": "python"},  # The root for our python package is in `./python`.
     python_requires=">=3.12",  # lowest python version supported.
     install_requires=[
         # requirements necessary for basic usage (subset of requirements.txt)

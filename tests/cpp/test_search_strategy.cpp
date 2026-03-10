@@ -2,7 +2,7 @@
 
 #include <gtest/gtest.h>
 
-#include "tspn/strategies/search_strategy.h"
+#include "tspn_core/strategies/search_strategy.h"
 
 namespace tspn {
 

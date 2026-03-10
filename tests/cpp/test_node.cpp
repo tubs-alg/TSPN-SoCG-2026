@@ -2,7 +2,7 @@
 
 #include <gtest/gtest.h>
 
-#include "tspn/node.h"
+#include "tspn_core/node.h"
 
 namespace tspn {
 

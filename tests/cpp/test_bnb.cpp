@@ -2,8 +2,8 @@
 
 #include <gtest/gtest.h>
 
-#include "tspn/bnb.h"
-#include "tspn/utils/drawer.h"
+#include "tspn_core/bnb.h"
+#include "tspn_core/utils/drawer.h"
 
 namespace tspn {
 

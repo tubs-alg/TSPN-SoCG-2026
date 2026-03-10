@@ -2,7 +2,7 @@
 
 #include <gtest/gtest.h>
 
-#include "tspn/utils/geometry.h"
+#include "tspn_core/utils/geometry.h"
 
 namespace tspn::utils {
 

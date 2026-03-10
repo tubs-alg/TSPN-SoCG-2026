@@ -2,10 +2,10 @@
 
 #include <gtest/gtest.h>
 
-#include "tspn/common.h"
-#include "tspn/node.h"
-#include "tspn/soc.h"
-#include "tspn/strategies/order_filtering.h"
+#include "tspn_core/common.h"
+#include "tspn_core/node.h"
+#include "tspn_core/soc.h"
+#include "tspn_core/strategies/order_filtering.h"
 
 namespace {
 

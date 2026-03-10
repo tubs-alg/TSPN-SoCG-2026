@@ -4,7 +4,7 @@
 
 #include <gtest/gtest.h>
 
-#include "tspn/details/solution_pool.h"
+#include "tspn_core/details/solution_pool.h"
 
 namespace tspn {
 
