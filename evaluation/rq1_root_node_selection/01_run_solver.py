@@ -29,7 +29,7 @@ def run_simplify_annotated_instance(
             timelimit=time_limit,
             root=alg_params["root"],
             num_threads=24,
-            eps=0.01,
+            eps=0.001,
             decomposition_branch=True,
             callback=None,
             initial_solution=None,
