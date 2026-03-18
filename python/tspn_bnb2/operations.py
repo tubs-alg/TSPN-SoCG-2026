@@ -104,6 +104,7 @@ def solve_annotated_instance(
     use_cutoff: bool = True,
     num_threads: int = 16,
     decomposition_branch: bool = True,
+    skip_convex_hull: bool = False,
     eps: float = 0.001,
     callback: Any = None,
     lazy_callback: Any = None,
@@ -141,6 +142,8 @@ def solve_annotated_instance(
         use_cutoff: Enable upper bound cutoff in SOCP solver for pruning.
         num_threads: Number of parallel threads for child evaluation. 0 = auto.
         decomposition_branch: True = branch on convex pieces; False = indicator modeling.
+        skip_convex_hull: Skip convex hull approximation and apply indicator
+            modeling directly when covering non-convex polygons.
         eps: Optimality tolerance: (UB - LB) <= eps * UB + eps.
         callback: Optional callback receiving EventContext during exploration.
         lazy_callback: Optional callback for adding lazy constraints when a node
@@ -187,6 +190,7 @@ def solve_annotated_instance(
         use_cutoff=use_cutoff,
         num_threads=num_threads,
         decomposition_branch=decomposition_branch,
+        skip_convex_hull=skip_convex_hull,
         eps=eps,
     )
 

@@ -75,8 +75,10 @@ public:
 class PolyBranching : public BranchingStrategy {
 public:
   explicit PolyBranching(bool decomposition_branch, bool simplify,
-                         unsigned num_threads_, bool verbose = true)
+                         unsigned num_threads_, bool skip_convex_hull = false,
+                         bool verbose = true)
       : decomposition_branch{decomposition_branch}, simplify{simplify},
+        skip_convex_hull{skip_convex_hull},
         num_threads{(num_threads_ == 0) ? boost::thread::hardware_concurrency()
                                         : num_threads_},
         verbose_{verbose} {
@@ -89,6 +91,11 @@ public:
         std::cout << "Branching on polygon decompositions" << std::endl;
       } else {
         std::cout << "Indicator-modelling polygon decompositions" << std::endl;
+      }
+      if (skip_convex_hull) {
+        std::cout
+            << "Skipping convex hull approximation (direct indicator modeling)"
+            << std::endl;
       }
       std::cout << "Exploring on " << num_threads << " of "
                 << boost::thread::hardware_concurrency() << " threads";
@@ -142,6 +149,7 @@ protected:
   Instance *instance = nullptr;
   bool decomposition_branch;
   bool simplify;
+  bool skip_convex_hull;
   unsigned num_threads;
   bool verbose_;
   std::vector<std::unique_ptr<SequenceRule>> rules;
@@ -155,8 +163,10 @@ protected:
 class FarthestPoly : public PolyBranching {
 public:
   explicit FarthestPoly(bool decomposition_branch = true, bool simplify = false,
-                        unsigned num_threads = 0, bool verbose = true)
-      : PolyBranching{decomposition_branch, simplify, num_threads, verbose} {
+                        unsigned num_threads = 0, bool skip_convex_hull = false,
+                        bool verbose = true)
+      : PolyBranching{decomposition_branch, simplify, num_threads,
+                      skip_convex_hull, verbose} {
     if (verbose_) {
       std::cout << "Branching on farthest poly." << std::endl;
     }
@@ -173,8 +183,10 @@ protected:
 class RandomPoly : public PolyBranching {
 public:
   explicit RandomPoly(bool decomposition_branch = true, bool simplify = false,
-                      unsigned num_threads = 0, bool verbose = true)
-      : PolyBranching{decomposition_branch, simplify, num_threads, verbose} {
+                      unsigned num_threads = 0, bool skip_convex_hull = false,
+                      bool verbose = true)
+      : PolyBranching{decomposition_branch, simplify, num_threads,
+                      skip_convex_hull, verbose} {
     if (verbose_) {
       std::cout << "Branching on random poly" << std::endl;
     }

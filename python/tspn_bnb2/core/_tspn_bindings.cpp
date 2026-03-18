@@ -96,7 +96,7 @@ branch_and_bound(Instance instance,
                  std::string branching, std::string search, std::string root,
                  bool node_simplification, std::vector<std::string> rules,
                  bool use_cutoff, unsigned num_threads,
-                 bool decomposition_branch, double eps) {
+                 bool decomposition_branch, bool skip_convex_hull, double eps) {
 
   std::unique_ptr<RootNodeStrategy> rns;
   { // root node strat
@@ -126,10 +126,12 @@ branch_and_bound(Instance instance,
   { // branching strat
     if (branching == "FarthestPoly") {
       branching_strategy = std::make_unique<FarthestPoly>(
-          decomposition_branch, /*simplify*/ node_simplification, num_threads);
+          decomposition_branch, /*simplify*/ node_simplification, num_threads,
+          skip_convex_hull);
     } else if (branching == "Random") {
       branching_strategy = std::make_unique<RandomPoly>(
-          decomposition_branch, /*simplify*/ node_simplification, num_threads);
+          decomposition_branch, /*simplify*/ node_simplification, num_threads,
+          skip_convex_hull);
     } else {
       throw std::invalid_argument("Invalid branching strategy.");
     }
@@ -489,6 +491,9 @@ PYBIND11_MODULE(_tspn_bindings, m) {
       "    num_threads: Number of parallel threads to use (default: 16).\n"
       "    decomposition_branch: Enable decomposition-based branching "
       "(default: True).\n"
+      "    skip_convex_hull: Skip convex hull approximation and apply "
+      "indicator "
+      "modeling directly when covering non-convex polygons (default: False).\n"
       "    eps: Epsilon tolerance for optimality gap (default: 0.001).\n\n"
       "Returns:\n"
       "    tuple: A tuple containing:\n"
@@ -503,7 +508,8 @@ PYBIND11_MODULE(_tspn_bindings, m) {
       py::arg("node_simplification") = false,
       py::arg("rules") = std::vector<std::string>{},
       py::arg("use_cutoff") = true, py::arg("num_threads") = 0,
-      py::arg("decomposition_branch") = true, py::arg("eps") = 0.001);
+      py::arg("decomposition_branch") = true,
+      py::arg("skip_convex_hull") = false, py::arg("eps") = 0.001);
 
   m.def("draw_geometries", &tspn::utils::draw_geometries,
         "draws instance and trajectory", py::arg("filename"),

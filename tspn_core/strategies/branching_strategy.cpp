@@ -150,7 +150,13 @@ bool PolyBranching::branch(Node &node) {
 
   } else {
     // cover a new poly
-    seq.push_back(c.value());
+    if (skip_convex_hull && !c.value().geometry()->is_convex()) {
+      // skip convex hull approximation: add with exact indicator modeling
+      seq.push_back(
+          TourElement(c.value().geo_index(), instance, /*is_exact=*/true));
+    } else {
+      seq.push_back(c.value());
+    }
     // in non-path-mode, sequence is a ring, so:
     //   "abc" => ["abdc", "adbc", "dabc" (="abcd")]
     // in path mode, we don't have a ring, and dont want stuff between origin

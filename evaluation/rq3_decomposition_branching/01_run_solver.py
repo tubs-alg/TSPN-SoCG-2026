@@ -31,6 +31,7 @@ def run_simplify_annotated_instance(
             root=alg_params["root"],
             num_threads=24,
             decomposition_branch=alg_params["decomposition"],
+            skip_convex_hull=alg_params["skip_convex_hull"],
             callback=None,
             initial_solution=None,
         )
@@ -72,8 +73,9 @@ def compress():
 
 # Algorithm configurations to evaluate
 alg_params_to_evaluate = [
-    {"root": "LongestEdgePlusFurthestSite", "decomposition": True},
-    {"root": "LongestEdgePlusFurthestSite", "decomposition": False},
+    {"root": "LongestEdgePlusFurthestSite", "decomposition": True, "skip_convex_hull": False},
+    {"root": "LongestEdgePlusFurthestSite", "decomposition": False, "skip_convex_hull": False},
+    {"root": "LongestEdgePlusFurthestSite", "decomposition": False, "skip_convex_hull": True},
 ]
 
 if __name__ == "__main__":

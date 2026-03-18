@@ -323,6 +323,43 @@ def test_decomposition_branch_disabled() -> None:
     assert ub is not None
 
 
+def test_skip_convex_hull() -> None:
+    """Test tour with skip_convex_hull using non-convex L-shaped polygons."""
+    instance = Instance(
+        [
+            Polygon(
+                [
+                    [
+                        Point(dx + x, dy + y)
+                        for x, y in [(0, 0), (2, 0), (2, 1), (1, 1), (1, 2), (0, 2)]
+                    ]
+                ]
+            )
+            for dx, dy in [(i * 4, j * 4) for i in range(4) for j in range(4)]
+        ],
+        False,
+    )
+    ub, lb, stats = branch_and_bound(
+        instance=instance,
+        callback=lambda _: None,
+        initial_solution=None,
+        timelimit=30,
+        branching="FarthestPoly",
+        search="DfsBfs",
+        root="LongestEdgePlusFurthestSite",
+        node_simplification=False,
+        rules=[],
+        use_cutoff=True,
+        num_threads=16,
+        decomposition_branch=False,
+        skip_convex_hull=True,
+        eps=0.001,
+    )
+    assert ub is not None
+    assert ub.get_trajectory().is_tour()
+    assert lb <= ub.get_trajectory().length()
+
+
 def test_num_threads_parameter() -> None:
     """Test tour with different number of threads."""
     instance = Instance(
