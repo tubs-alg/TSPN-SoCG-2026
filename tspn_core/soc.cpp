@@ -83,7 +83,7 @@ void model_tour_element(GRBModel &model, const GRBVar &var_x,
     for (const SiteVariant &site : te.geometry()->decomposition()) {
       model_site_indicator(model, var_x, var_y, site, sum_chosen);
     }
-    model.addConstr(sum_chosen >= 1);
+    model.addConstr(sum_chosen == 1);
   }
 }
 
