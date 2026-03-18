@@ -150,13 +150,11 @@ bool PolyBranching::branch(Node &node) {
 
   } else {
     // cover a new poly
-    if (skip_convex_hull && !c.value().geometry()->is_convex()) {
-      // skip convex hull approximation: add with exact indicator modeling
-      seq.push_back(
-          TourElement(c.value().geo_index(), instance, /*is_exact=*/true));
-    } else {
-      seq.push_back(c.value());
-    }
+    TourElement new_element =
+        (skip_convex_hull && !c.value().geometry()->is_convex())
+            ? TourElement(c.value().geo_index(), instance, /*is_exact=*/true)
+            : c.value();
+    seq.push_back(new_element);
     // in non-path-mode, sequence is a ring, so:
     //   "abc" => ["abdc", "adbc", "dabc" (="abcd")]
     // in path mode, we don't have a ring, and dont want stuff between origin
@@ -172,7 +170,7 @@ bool PolyBranching::branch(Node &node) {
     }
     for (int i = seq.size() - 1; i >= 2; i--) {
       seq[i] = seq[i - 1];
-      seq[i - 1] = *c;
+      seq[i - 1] = new_element;
       if (is_sequence_ok(seq, node)) {
         children.push_back(node.make_child(seq));
       } else {

@@ -55,7 +55,7 @@ def load_instance_and_run(instance_path: str, alg_params: dict):
     with zipfile.ZipFile(db_path, "r") as zf, zf.open(instance_path) as f:
         instance_json = f.read().decode("utf-8")
         instance = AnnotatedInstance.model_validate_json(instance_json)
-    instance.polygons = [poly.buffer(0) for poly in instance.polygons]
+    instance.polygons = [poly.buffer(0).simplify(1e-6) for poly in instance.polygons]
     benchmark.add(
         run_simplify_annotated_instance,
         instance_name=Path(instance_path).stem,
