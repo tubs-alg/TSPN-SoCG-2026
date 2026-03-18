@@ -8,7 +8,7 @@ from tspn_bnb2.operations import solve_annotated_instance
 from tspn_bnb2.schemas import AnnotatedInstance
 
 benchmark = Benchmark("results_search_strategy", hide_output=False)
-db_path = Path(__file__).parent.parent / "instances" / "instances_socg_60_simplified.zip"
+db_path = Path(__file__).parent.parent.parent / "instances" / "instances_socg_simplified.zip"
 # db_path = Path(__file__).parent.parent / "instances" / "test.zip"
 
 time_limit = 60
@@ -92,7 +92,7 @@ alg_params_to_evaluate = [
 ]
 
 if __name__ == "__main__":
-    with slurminade.JobBundling(max_size=10):
+    with slurminade.JobBundling(max_size=60):
         with zipfile.ZipFile(db_path, "r") as zf:
             instance_files = [name for name in zf.namelist() if name.endswith(".json")]
             print(f"Found {len(instance_files)} instances")
