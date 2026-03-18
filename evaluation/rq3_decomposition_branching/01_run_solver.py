@@ -11,7 +11,7 @@ benchmark = Benchmark("results_decomposition_strategy", hide_output=False)
 db_path = Path(__file__).parent.parent.parent / "instances" / "instances_socg_simplified.zip"
 # db_path = Path(__file__).parent.parent / "instances" / "test.zip"
 
-time_limit = 300
+time_limit = 60
 
 slurminade.update_default_configuration(
     partition="alg", constraint="alggen05", exclusive=True, mail_type="FAIL"
@@ -55,7 +55,7 @@ def load_instance_and_run(instance_path: str, alg_params: dict):
     with zipfile.ZipFile(db_path, "r") as zf, zf.open(instance_path) as f:
         instance_json = f.read().decode("utf-8")
         instance = AnnotatedInstance.model_validate_json(instance_json)
-
+    instance.polygons = [poly.buffer(0) for poly in instance.polygons]
     benchmark.add(
         run_simplify_annotated_instance,
         instance_name=Path(instance_path).stem,
@@ -79,7 +79,7 @@ alg_params_to_evaluate = [
 ]
 
 if __name__ == "__main__":
-    with slurminade.JobBundling(max_size=60):
+    with slurminade.JobBundling(max_size=30):
         with zipfile.ZipFile(db_path, "r") as zf:
             instance_files = [name for name in zf.namelist() if name.endswith(".json")]
             print(f"Found {len(instance_files)} instances")
