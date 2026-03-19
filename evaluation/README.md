@@ -5,15 +5,12 @@ The experiments are organized around five research questions (RQs) that evaluate
 
 ## Instance Sets
 
-All instance files are stored in `instances/` as compressed zip files:
+All instance files are stored in the repository root `instances/` directory as compressed zip files:
 
 | File | Content                                         | Description                                                                                                  |
 |------|-------------------------------------------------|--------------------------------------------------------------------------------------------------------------|
-| `instances_socg.zip` | 558 instances                                   | Full benchmark set with mixed polygon counts (30-60+)                                                        |
-| `instances_socg_30.zip` | 30-polygon (subset of `instances_socg.zip`)     | Smaller instances for quick testing                                                                          |
-| `instances_socg_60.zip` | 60-polygon (subset of `instances_socg.zip`)     | Larger instances for scalability testing                                                                     |
+| `instances_socg.zip`            | 558 instances                                     | Full benchmark set with mixed polygon counts (30-60+)                                                        |
 | `instances_socg_simplified.zip` | 558 instances (derived from `instances_socg.zip`) | Simplified version (holes removed, convex hull fill). This resembles the instance set `full` from the paper. |
-| `instances_socg_60_simplified.zip` | 60-polygon simplified (derived from `instances_socg_60.zip`)                           | Simplified 60-polygon instances. This resembles the instance set `small` from the paper.                     |
 
 **Instance types:**
 - **OSM**: Real-world instances from OpenStreetMap building footprints
@@ -58,9 +55,13 @@ Compares three tree traversal strategies:
 
 ### rq3_decomposition_branching - Decomposition Strategy
 
-Evaluates the impact of decomposition-based branching:
-- With decomposition: `decomposition_branch=True`
-- Without decomposition: `decomposition_branch=False`
+Evaluates three branching approaches for handling non-convex polygons:
+
+| Strategy | Description |
+|----------|-------------|
+| Indicator Modeling | Uses binary indicator variables in the SOCP to model polygon boundary selection |
+| Eager Indicator Modeling | Like indicator modeling, but skips convex hull relaxation and immediately introduces indicators |
+| Decomposition Branching | Explicitly branches on polygon decompositions, creating child nodes per boundary segment |
 
 ---
 
