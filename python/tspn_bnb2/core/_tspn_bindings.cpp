@@ -364,7 +364,13 @@ PYBIND11_MODULE(_tspn_bindings, m) {
       .def("get_fixed_sequence", &Node::get_fixed_sequence,
            py::return_value_policy::reference)
       .def("get_spanning_sequence", &Node::get_spanning_sequence)
-      .def("num_children", &Node::num_children);
+      .def("num_children", &Node::num_children)
+      .def(
+          "get_children",
+          [](Node &self) -> std::vector<std::shared_ptr<Node>> {
+            return self.get_children();
+          },
+          "Return child nodes (including pruned ones).");
 
   py::class_<SolutionPool>(m, "SolutionPool")
       .def("add_solution", &SolutionPool::add_solution)
