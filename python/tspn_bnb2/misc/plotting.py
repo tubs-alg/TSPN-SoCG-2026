@@ -7,6 +7,9 @@ from typing import TYPE_CHECKING, Any
 
 import matplotlib.colors as mpc
 import matplotlib.pyplot as plt
+import numpy as np
+import pandas as pd
+from matplotlib.axes import Axes
 from matplotlib.patches import Circle as CirclePatch
 from matplotlib.patches import PathPatch
 from matplotlib.path import Path
@@ -26,6 +29,73 @@ from tspn_bnb2.core._tspn_bindings import (
 
 if TYPE_CHECKING:
     from tspn_bnb2.schemas import AnnotatedInstance, AnnotatedSolution
+
+
+def cactus_plot(
+    data: pd.DataFrame,
+    runtime_column: str,
+    strategy_column: str,
+    instance_column: str,
+    ax: Axes | None = None,
+    flat_line_to: float | None = None,
+    linestyle: str = "-",
+    colors: dict | None = None,
+) -> Axes:
+    """Create a cactus plot (#solved instances vs runtime).
+
+    Args:
+        data: DataFrame containing the experiment results.
+        runtime_column: column containing runtime values.
+        strategy_column: column identifying the strategy/solver.
+        instance_column: column identifying the problem instance.
+        flat_line_to: optional value to extend the curve horizontally to.
+        linestyle: optional linestyle for the plot.
+        colors: optional dictionary mapping strategy to color.
+        ax: optional matplotlib Axes to plot into.
+
+    Returns:
+        The matplotlib Axes with the cactus plot.
+
+    """
+    if ax is None:
+        ax = plt.gca()
+
+    for strategy, group in data.groupby(strategy_column):
+        # keep best runtime per instance
+        runtimes = (
+            group.groupby(instance_column)[runtime_column].min().dropna().sort_values().to_numpy()
+        )
+
+        if len(runtimes) == 0:
+            continue
+
+        solved = np.arange(1, len(runtimes) + 1)
+
+        x = runtimes
+        y = solved
+
+        # extend curve horizontally if requested
+        if flat_line_to is not None and runtimes[-1] < flat_line_to:
+            x = np.append(x, flat_line_to)
+            y = np.append(y, solved[-1])
+
+        color = None
+        if colors is not None:
+            color = colors.get(strategy)
+
+        ax.step(
+            x,
+            y,
+            where="post",
+            label=strategy,
+            linestyle=linestyle,
+            color=color,
+        )
+
+    ax.set_xlabel("runtime [s]")
+    ax.set_ylabel("\\# solved instances")
+
+    return ax
 
 
 def patchify(polys: list[Polygon], **kwargs: Any) -> PathPatch:
