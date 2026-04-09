@@ -8,25 +8,30 @@ FULLWIDEFIGURE = (FIGWIDTH, 2)
 HIGHFIGURE = (FIGWIDTH, 3)
 HALFWIDEFIGURE = (2.8, 2)
 
+MARGIN_WIDTH = 1.87831
+TEXT_WIDTH = 4.2134
+TEXT_FULL_WIDTH = 6.33585
+
 
 def init_params() -> None:
     """Initialize matplotlib parameters for publication-quality figures."""
-    sns.set_theme(context="notebook", style="whitegrid")
+    sns.set_theme()
+
     plt.rcParams.update(
         {
             "text.usetex": True,
-            "text.latex.preamble": " \\usepackage{lmodern}",
-            "font.family": ["Latin Modern Roman"],
-            "font.size": 7,
-            "axes.titlesize": 7,
-            "axes.labelsize": 7,
-            "legend.fontsize": 7,
-            "figure.titlesize": 7,
-            "xtick.labelsize": 7,
-            "ytick.labelsize": 7,
-            "legend.title_fontsize": 7,
-            "figure.figsize": FULLWIDEFIGURE,
-            "savefig.bbox": "tight",
-            "savefig.pad_inches": 0.01,
+            # Font: Computer Modern (matches scrbook default)
+            "font.family": "serif",
+            "font.serif": ["Computer Modern Roman"],
+            "text.latex.preamble": r"\usepackage{stmaryrd}",
+            # Figure text sizes → \footnotesize
+            "axes.labelsize": 8,
+            "xtick.labelsize": 8,
+            "ytick.labelsize": 8,
+            "legend.fontsize": 7,  # slightly smaller to match visual size
+            "legend.title_fontsize": 7,  # slightly smaller to match visual size
+            # Titles → \small
+            "axes.titlesize": 9,
+            "figure.titlesize": 9,
         }
     )
